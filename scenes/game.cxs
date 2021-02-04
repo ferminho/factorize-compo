@@ -1,0 +1,24 @@
+Strict
+
+Public
+
+Import cerberus.random
+Import mojo2
+
+Import scenes.scene
+
+Class Game Implements Scene
+
+	Method Start:Void()
+	End Method
+
+	Method Update:Int()
+		Return 0
+	End Method
+
+	Method Draw:Void(canvas:Canvas)	
+		Local color:Float = Rnd(0.1, 0.3)
+		canvas.Clear(color, color, color)
+	End Method
+
+End Class
