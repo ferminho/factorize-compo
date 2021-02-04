@@ -1,0 +1,79 @@
+Strict 
+
+Import cerberus.random
+Import mojo2
+
+'Import assetbox
+Import consts
+'Import gfx.pedestriangenerator
+'Import scenes.menu
+Import scenes.game
+Import time
+
+
+Class Factorize Extends App
+Private
+	Const DesiredUps:Float = 30.0
+	Const UpdateTime:Int = 1000.0 / DesiredUps
+
+	Field canvas:Canvas
+	Field scenes:Scene[] = New Scene[1]
+	Field currentScene:Int = 0
+	
+	Field nextExpectedUpdate:Int 
+
+	Method OnCreate:Int()
+		InitRandom()
+		Time.instance.Update()
+		canvas = New Canvas()
+		canvas.SetProjection2d(0.0, CanvasWidth, 0.0, CanvasHeight)
+		
+		scenes[0] = New Game()
+		scenes[0].Start()
+		
+		nextExpectedUpdate = Millisecs()
+		Return 0
+	End Method
+	
+	Method OnUpdate:Int()
+		Local time:Int = Millisecs()
+
+		If (time >= nextExpectedUpdate)
+			Time.instance.Update()
+
+			Local status:Int = scenes[currentScene].Update()
+			
+			If (status = Scene.SkipToNextScene)
+				currentScene+= 1
+				scenes[currentScene].Start()
+				scenes[currentScene].Update()
+			Else If (status = Scene.Abort)
+				currentScene-= 1
+				If (currentScene < 0) Then EndApp()
+				scenes[currentScene].Start()
+				scenes[currentScene].Update()
+			End If
+			nextExpectedUpdate = time + UpdateTime
+		End If
+		
+		Return 0
+	End Method
+	
+	Method OnRender:Int()
+		canvas.Clear()
+		scenes[currentScene].Draw(canvas)
+		canvas.Flush()
+		
+		Return 0
+	End Method
+
+	Method InitRandom:Void()
+		Local date := GetDate()
+		Seed = date[3] * 3600000 + date[4] * 60000 + date[5] * 1000 + date[6]
+	End Method
+End Class
+
+Function Main:Int()
+	New Factorize()
+	Return 0
+End
