@@ -3,11 +3,9 @@ Strict
 Import cerberus.random
 Import mojo2
 
-'Import assetbox
 Import consts
-'Import gfx.pedestriangenerator
-'Import scenes.menu
 Import scenes.game
+Import scenes.loading
 Import time
 
 
@@ -17,7 +15,7 @@ Private
 	Const UpdateTime:Int = 1000.0 / DesiredUps
 
 	Field canvas:Canvas
-	Field scenes:Scene[] = New Scene[1]
+	Field scenes:Scene[] = [Scene(New Loading()), Scene(New Game())]
 	Field currentScene:Int = 0
 	
 	Field nextExpectedUpdate:Int 
@@ -27,8 +25,6 @@ Private
 		Time.instance.Update()
 		canvas = New Canvas()
 		canvas.SetProjection2d(0.0, CANVASWIDTH, 0.0, CANVASHEIGHT)
-		
-		scenes[0] = New Game()
 		scenes[0].Start()
 		
 		nextExpectedUpdate = Millisecs()

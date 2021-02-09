@@ -1,0 +1,24 @@
+Strict
+
+Public
+
+Import cerberus.random
+Import mojo2
+
+Import map.tileset
+Import scenes.scene
+
+Class Loading Implements Scene
+
+	Method Start:Void()
+		TileSet.Initialize()
+	End Method
+
+	Method Update:Int()
+		Return Scene.SkipToNextScene
+	End Method
+
+	Method Draw:Void(canvas:Canvas)	
+	End Method
+
+End Class
