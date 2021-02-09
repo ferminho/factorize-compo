@@ -26,7 +26,7 @@ Private
 		InitRandom()
 		Time.instance.Update()
 		canvas = New Canvas()
-		canvas.SetProjection2d(0.0, CanvasWidth, 0.0, CanvasHeight)
+		canvas.SetProjection2d(0.0, CANVASWIDTH, 0.0, CANVASHEIGHT)
 		
 		scenes[0] = New Game()
 		scenes[0].Start()
