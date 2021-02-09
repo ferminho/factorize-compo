@@ -1,0 +1,42 @@
+Strict
+
+Public
+
+Import mojo2
+
+Class TileSet
+Public
+
+	Const TVOID:Int = 0
+	
+	Const FLOOR1:Int = TVOID + 1
+	Const FLOOR2:Int = FLOOR1 + 1
+	Const FLOOR3:Int = FLOOR2 + 1
+	Const FLOOR4:Int = FLOOR3 + 1
+	
+	Const EDGERIGHTCENTER:Int = FLOOR4 + 1
+	Const EDGERIGHTDOWN:Int = EDGERIGHTCENTER + 1
+	Const EDGECENTERDOWN:Int = EDGERIGHTDOWN + 1
+	Const EDGELEFTDOWN:Int = EDGECENTERDOWN + 1
+	Const EDGELEFTCENTER:Int = EDGELEFTDOWN + 1
+	Const EDGELEFTUP:Int = EDGELEFTCENTER + 1
+	Const EDGECENTERUP:Int = EDGELEFTUP + 1
+	Const EDGERIGHTUP:Int = EDGECENTERUP + 1
+
+	Const CONVEYOR1:Int = EDGERIGHTUP + 1
+	Const CONVEYOR2:Int = CONVEYOR1 + 1
+	Const CONVEYOR3:Int = CONVEYOR2 + 1
+	Const CONVEYOR4:Int = CONVEYOR3 + 1
+
+	Global GfxTiles:Image[]
+	
+	Function Initialize:Void()
+		GfxTiles = Image.LoadFrames("cerberus://data/gfx/tileset4.png", NTILES, False, .5, .5, 0)
+	End Function
+
+Private
+
+	Const NTILES:Int = 64
+
+End Class
+
