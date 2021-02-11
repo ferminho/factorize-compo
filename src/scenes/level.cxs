@@ -1,0 +1,28 @@
+Strict
+
+Public
+
+Import mojo2 
+
+Import map.tileset
+Import scenes.scene
+
+Class Level Implements Scene
+
+	Method Start:Void()
+	End Method
+
+	Method Update:Int()
+		Return Scene.KeepRunning
+	End Method
+	
+	Method Draw:Void(canvas:Canvas)	
+		canvas.SetBlendMode(BlendMode.Alpha)
+		canvas.SetColor(1.0, 1.0, 1.0, 1.0)
+
+		Local color:Float = Rnd(0.1, 0.3)
+		canvas.Clear(color, color, color)
+		canvas.DrawImage(TileSet.GfxTiles[TileSet.FLOOR1], 32.0, 32.0)
+	End Method
+	
+End Class

@@ -1,0 +1,41 @@
+Strict
+
+Public
+
+Import cerberus.random
+Import mojo2
+
+Import scenes.scene
+
+Class SceneContainer Implements Scene
+
+	Field scenes:Scene[]
+	Field current:Int = 0
+
+	Method New(scenes:Scene[])
+		Self.scenes = scenes
+	End Method
+
+	Method Start:Void()
+		scenes[0].Start()
+	End Method
+
+	Method Update:Int()
+		Local status:Int = scenes[current].Update()
+		If (status = Scene.SkipToNextScene)
+			current += 1
+			If (current > scenes.Length)
+				Return Scene.SkipToNextScene
+			End If
+			scenes[current].Start()
+		Else If (status = Scene.Abort)
+			Return Scene.Abort
+		End If
+		Return Scene.KeepRunning
+	End Method
+
+	Method Draw:Void(canvas:Canvas)	
+		scenes[current].Draw(canvas)
+	End Method
+
+End Class

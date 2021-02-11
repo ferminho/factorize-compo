@@ -5,22 +5,31 @@ Public
 Import cerberus.random
 Import mojo2
 
-Import map.tileset
+Import scenes.level
 Import scenes.scene
+Import scenes.scenecontainer
 
 Class Game Implements Scene
 
+	Field levelScenes:SceneContainer
+
+	Method New()
+		Local levels:Scene[] = New Scene[1]
+		levels = New Scene[1]
+		levels[0] = New Level()
+		levelScenes = New SceneContainer(levels)
+	End Method
+
 	Method Start:Void()
+		levelScenes.Start()
 	End Method
 
 	Method Update:Int()
-		Return 0
+		Return levelScenes.Update()
 	End Method
 
 	Method Draw:Void(canvas:Canvas)	
-		Local color:Float = Rnd(0.1, 0.3)
-		canvas.Clear(color, color, color)
-		canvas.DrawImage(TileSet.GfxTiles[TileSet.FLOOR1], 32.0, 32.0)
+		levelScenes.Draw(canvas)
 	End Method
 
 End Class
