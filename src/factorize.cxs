@@ -21,7 +21,6 @@ Private
 	Field nextExpectedUpdate:Int 
 
 	Method OnCreate:Int()
-		InitRandom()
 		Time.instance.Update()
 		canvas = New Canvas()
 		canvas.SetProjection2d(0.0, CANVASWIDTH, 0.0, CANVASHEIGHT)
@@ -36,19 +35,7 @@ Private
 
 		If (time >= nextExpectedUpdate)
 			Time.instance.Update()
-
-			Local status:Int = scenes[currentScene].Update()
-			
-			If (status = Scene.SkipToNextScene)
-				currentScene+= 1
-				scenes[currentScene].Start()
-				scenes[currentScene].Update()
-			Else If (status = Scene.Abort)
-				currentScene-= 1
-				If (currentScene < 0) Then EndApp()
-				scenes[currentScene].Start()
-				scenes[currentScene].Update()
-			End If
+			UpdateScenes()
 			nextExpectedUpdate = time + UpdateTime
 		End If
 		
@@ -63,9 +50,19 @@ Private
 		Return 0
 	End Method
 
-	Method InitRandom:Void()
-		Local date := GetDate()
-		Seed = date[3] * 3600000 + date[4] * 60000 + date[5] * 1000 + date[6]
+	Method UpdateScenes:Void()
+		Local status:Int = scenes[currentScene].Update()
+		
+		If (status = Scene.SkipToNextScene)
+			currentScene+= 1
+			scenes[currentScene].Start()
+			scenes[currentScene].Update()
+		Else If (status = Scene.Abort)
+			currentScene-= 1
+			If (currentScene < 0) Then EndApp()
+			scenes[currentScene].Start()
+			scenes[currentScene].Update()
+		End If
 	End Method
 End Class
 

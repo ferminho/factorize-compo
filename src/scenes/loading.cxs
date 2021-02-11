@@ -11,6 +11,7 @@ Import scenes.scene
 Class Loading Implements Scene
 
 	Method Start:Void()
+		InitRandom()
 		TileSet.Initialize()
 	End Method
 
@@ -21,4 +22,10 @@ Class Loading Implements Scene
 	Method Draw:Void(canvas:Canvas)	
 	End Method
 
+Private
+
+	Method InitRandom:Void()
+		Local date := GetDate()
+		Seed = date[3] * 3600000 + date[4] * 60000 + date[5] * 1000 + date[6]
+	End Method
 End Class
