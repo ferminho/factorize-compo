@@ -56,12 +56,10 @@ Private
 		If (status = Scene.SkipToNextScene)
 			currentScene+= 1
 			scenes[currentScene].Start()
-			scenes[currentScene].Update()
 		Else If (status = Scene.Abort)
 			currentScene-= 1
 			If (currentScene < 0) Then EndApp()
 			scenes[currentScene].Start()
-			scenes[currentScene].Update()
 		End If
 	End Method
 End Class
