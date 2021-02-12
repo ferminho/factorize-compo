@@ -16,8 +16,13 @@ Class SceneContainer Implements Scene
 		Self.scenes = scenes
 	End Method
 
+	Method StartIn:Void(sceneNumber:Int)
+		current = sceneNumber
+		Start()
+	End Method
+
 	Method Start:Void()
-		scenes[0].Start()
+		scenes[current].Start()
 	End Method
 
 	Method Update:Int()
