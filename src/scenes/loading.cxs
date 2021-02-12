@@ -5,7 +5,7 @@ Public
 Import cerberus.random
 Import mojo2
 
-Import map.tileset
+Import world.tileset
 Import scenes.scene
 
 Class Loading Implements Scene

@@ -4,7 +4,7 @@ Public
 
 Import mojo2 
 
-Import map.tileset
+Import world.tileset
 Import scenes.scene
 
 Class Level Implements Scene
