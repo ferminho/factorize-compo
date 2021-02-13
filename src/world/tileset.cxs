@@ -7,26 +7,35 @@ Import mojo2
 Class TileSet
 Public
 
-	Const TVOID:Int = 0
-	
+	' ---
+	Const GROUND:Int = 0
+	' ---
+	Const TVOID:Int = GROUND
 	Const FLOOR1:Int = TVOID + 1
 	Const FLOOR2:Int = FLOOR1 + 1
 	Const FLOOR3:Int = FLOOR2 + 1
 	Const FLOOR4:Int = FLOOR3 + 1
 	
-	Const EDGERIGHTCENTER:Int = FLOOR4 + 1
-	Const EDGERIGHTDOWN:Int = EDGERIGHTCENTER + 1
-	Const EDGECENTERDOWN:Int = EDGERIGHTDOWN + 1
-	Const EDGELEFTDOWN:Int = EDGECENTERDOWN + 1
-	Const EDGELEFTCENTER:Int = EDGELEFTDOWN + 1
-	Const EDGELEFTUP:Int = EDGELEFTCENTER + 1
-	Const EDGECENTERUP:Int = EDGELEFTUP + 1
-	Const EDGERIGHTUP:Int = EDGECENTERUP + 1
-
-	Const CONVEYOR1:Int = EDGERIGHTUP + 1
+	' ---
+	Const PLACEABLES:Int = FLOOR4 + 1
+	' ---
+	Const TUBEHOLE1:Int = PLACEABLES
+	Const TUBEHOLE2:Int = TUBEHOLE1 + 1
+	Const TUBEHOLE3:Int = TUBEHOLE2 + 1
+	Const TUBEHOLE4:Int = TUBEHOLE3 + 1
+	Const TUBEEDGE:Int = TUBEHOLE4 + 1
+	Const TUBEBODY:Int = TUBEEDGE + 1
+	Const CONVEYOR1:Int = TUBEBODY + 1
 	Const CONVEYOR2:Int = CONVEYOR1 + 1
 	Const CONVEYOR3:Int = CONVEYOR2 + 1
 	Const CONVEYOR4:Int = CONVEYOR3 + 1
+	Const WALL:Int = CONVEYOR4 + 1
+
+	' ---
+	Const PARTS:Int = WALL + 1
+	' ---
+	Const PARTCONCRETE:Int = PARTS
+	
 
 	Global GfxTiles:Image[]
 	
