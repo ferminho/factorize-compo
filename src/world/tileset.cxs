@@ -19,28 +19,33 @@ Public
 	' ---
 	Const PLACEABLES:Int = FLOOR4 + 1
 	' ---
-	Const TUBEHOLE1:Int = PLACEABLES
-	Const TUBEHOLE2:Int = TUBEHOLE1 + 1
-	Const TUBEHOLE3:Int = TUBEHOLE2 + 1
-	Const TUBEHOLE4:Int = TUBEHOLE3 + 1
-	Const TUBEEDGE:Int = TUBEHOLE4 + 1
+	Const TUBEHOLE:Int = PLACEABLES
+	Const TUBEHOLEF2:Int = TUBEHOLE + 1
+	Const TUBEHOLEF3:Int = TUBEHOLEF2 + 1
+	Const TUBEHOLEF4:Int = TUBEHOLEF3 + 1
+	Const TUBEEDGE:Int = TUBEHOLEF4 + 1
 	Const TUBEBODY:Int = TUBEEDGE + 1
-	Const CONVEYOR1:Int = TUBEBODY + 1
-	Const CONVEYOR2:Int = CONVEYOR1 + 1
-	Const CONVEYOR3:Int = CONVEYOR2 + 1
-	Const CONVEYOR4:Int = CONVEYOR3 + 1
-	Const WALL:Int = CONVEYOR4 + 1
+	Const CONVEYOR:Int = TUBEBODY + 1
+	Const CONVEYORF2:Int = CONVEYOR + 1
+	Const CONVEYORF3:Int = CONVEYORF2 + 1
+	Const CONVEYORF4:Int = CONVEYORF3 + 1
+	Const WALL:Int = CONVEYORF4 + 1
 
 	' ---
 	Const PARTS:Int = WALL + 1
 	' ---
 	Const PARTCONCRETE:Int = PARTS
-	
+
 
 	Global GfxTiles:Image[]
+	Global AnimFrames:Int[]
 	
 	Function Initialize:Void()
 		GfxTiles = Image.LoadFrames("cerberus://data/gfx/tileset4.png", NTILES, False, .5, .5, 0)
+		' Define animation lengths
+		AnimFrames = New Int[GfxTiles.Length]
+		AnimFrames[TUBEHOLE] = 4
+		AnimFrames[CONVEYOR] = 4
 	End Function
 
 Private
