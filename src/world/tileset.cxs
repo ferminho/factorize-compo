@@ -7,10 +7,12 @@ Import mojo2
 Class TileSet
 Public
 
+	Const NONE:Int = 0
+
 	' ---
-	Const GROUND:Int = 0
+	Const GROUND:Int = 1
 	' ---
-	Const TVOID:Int = GROUND
+	Const ABYSS:Int = GROUND
 	Const FLOOR1:Int = TVOID + 1
 	Const FLOOR2:Int = FLOOR1 + 1
 	Const FLOOR3:Int = FLOOR2 + 1
