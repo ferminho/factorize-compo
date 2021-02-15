@@ -20,13 +20,19 @@ Class LevelMap
 	Const MIRRORY:Int = $500
 	Const MIRRORXY:Int = $600
 
+	Field width:Int
+	Field height:Int
+
+	Field groundTiles:Int[]
+	Field fixedBlocks:Int[]
+	Field playerBlocks:Int[]
+
 	Method New(width:Int, height:Int)
 		Self.width = width
 		Self.height = height
 		groundTiles = New Int[width * height]
 		fixedBlocks = New Int[width * height]
 		playerBlocks = New Int[width * height]
-
 	End Method
 
 	Method Update:Void()
@@ -67,13 +73,6 @@ Class LevelMap
 
 Private
 
-	Field width:Int
-	Field height:Int
-
-	Field groundTiles:Int[]
-	Field fixedBlocks:Int[]
-	Field playerBlocks:Int[]
-
 	Field animDelta:Int = 0
 	
 	Method DrawTilesAt:Void(position:Int, x:Int, y:Int)
@@ -91,8 +90,8 @@ Private
 			imgN &= MASKTILE
 			If (imgN > 0)
 				animFrames = TileSet.AnimFrames[imgN]
-				If (animFrames > 1) Then imgN += animDelta % animFrames
-				img:Image = TileSet.GfxTiles[imgN]
+				If (animFrames > 1) Then imgN += animDelta Mod animFrames
+				img = TileSet.GfxTiles[imgN]
 				
 				If (direction = DIRECTIONDOWN)
 					rotation = 90.0
@@ -113,7 +112,6 @@ Private
 				canvas.DrawImage(img, x, y, angle, scaleX, scaleY)
 			End If
 		End For
-		Local 
-		
 	End Method
+	
 End Class
