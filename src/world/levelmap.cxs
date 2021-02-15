@@ -5,24 +5,33 @@ Import mojo2
 Import consts
 Import world.camera
 Import world.tileset
+Import time
 
 Class LevelMap
 
-	Const MASKDIRECTION:Int = $700	' 8 most significant bits are for tile index
+	Const MASKTILE:Int = $FF
+	Const MASKDIRECTION:Int = $700
+
 	Const DIRECTIONRIGHT:Int = $000
 	Const DIRECTIONDOWN:Int = $100
 	Const DIRECTIONLEFT:Int = $200
 	Const DIRECTIONUP:Int = $300
-	Const MASKMIRRORX:Int = $400
-	Const MASKMIRRORY:Int = $500
-	Const MASKMIRRORXY:Int = $600
+	Const MIRRORX:Int = $400
+	Const MIRRORY:Int = $500
+	Const MIRRORXY:Int = $600
 
-	Field width:Int
-	Field height:Int
+	Method New(width:Int, height:Int)
+		Self.width = width
+		Self.height = height
+		groundTiles = New Int[width * height]
+		fixedBlocks = New Int[width * height]
+		playerBlocks = New Int[width * height]
 
-	Field groundTiles:Int[]
-	Field fixedBlocks:Int[]
-	Field playerBlocks:Int[]
+	End Method
+
+	Method Update:Void()
+		animDelta = Floor(Time.actTime / TILEANIMSPEED)
+	End Method
 
 	Method Draw:Void(canvas:Canvas, camera:Camera)
 		Local x0:Int = -(camera.x0 Mod TileSize)
@@ -38,17 +47,15 @@ Class LevelMap
 				Local x:Int = x0
 				For Local j:Int = tileJ0 To tileJ1
 					If (j >= 0 And j < width)
-						Local imgN:Int = tiles[i * width + j]
-						Local img:Image = Tileset.GfxTiles[imgN]
-						canvas.DrawImage(img, x, y)
+						DrawTilesAt(i * width + j, x, y)
 					End If
 					x += TileSize
 				End For
 			End If
 			y += TileSize
 		End For
-			
 	End Method
+	
 	
 	Method GetGroundTileAt:Int(x:Float, y:Float)
 		Local i:Int = Floor((y - 0.5) / TileSize)
@@ -57,5 +64,56 @@ Class LevelMap
 		If (j < 0 Or j >= width) Then Return Tileset.TVOID
 		Return groundTiles[i * width + j]
 	End Method
+
+Private
+
+	Field width:Int
+	Field height:Int
+
+	Field groundTiles:Int[]
+	Field fixedBlocks:Int[]
+	Field playerBlocks:Int[]
+
+	Field animDelta:Int = 0
 	
+	Method DrawTilesAt:Void(position:Int, x:Int, y:Int)
+		Local imgN:Int
+		Local animFrames:Int
+		Local img:Image
+		Local direction:Int
+		Local angle:Float = 0.0
+		Local scaleX:Float = 1.0
+		Local scaleY:Float = 1.0
+		
+		For tilemap = EachIn [groundTiles, fixedBlocks, playerBlocks]
+			imgN = tilemap[position]
+			direction = imgN & MASKDIRECTION
+			imgN &= MASKTILE
+			If (imgN > 0)
+				animFrames = TileSet.AnimFrames[imgN]
+				If (animFrames > 1) Then imgN += animDelta % animFrames
+				img:Image = TileSet.GfxTiles[imgN]
+				
+				If (direction = DIRECTIONDOWN)
+					rotation = 90.0
+				ElseIf (direction = DIRECTIONLEFT)
+					scaleX = -1.0
+				ElseIf (direction = DIRECTIONUP)
+					scaleX = -1.0
+					rotation = -90.0
+				ElseIf (direction = MASKMIRRORX)
+					scaleX = -1.0
+				ElseIf (direction = MASKMIRRORY)
+					scaleY = -1.0
+				ElseIf (direction = MASKMIRRORXY)				
+					scaleX = -1.0
+					scaleY = -1.0
+				EndIf
+
+				canvas.DrawImage(img, x, y, angle, scaleX, scaleY)
+			End If
+		End For
+		Local 
+		
+	End Method
 End Class
