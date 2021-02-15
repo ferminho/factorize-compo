@@ -2,25 +2,35 @@ Strict
 
 Import mojo2 
 
-Import world.tileset
 Import scenes.scene
+Import world.camera
+Import world.levelmap
+Import world.testmap
+Import world.tileset
 
 Class Level Implements Scene
 
+	Field camera:Camera
+	Field levelMap:LevelMap
+
 	Method Start:Void()
+		camera = New Camera()
+		levelMap = New TestMap()
 	End Method
 
 	Method Update:Int()
+		camera.Update()
+		levelMap.Update()
 		Return Scene.KeepRunning
 	End Method
 	
 	Method Draw:Void(canvas:Canvas)	
 		canvas.SetBlendMode(BlendMode.Alpha)
 		canvas.SetColor(1.0, 1.0, 1.0, 1.0)
-
 		Local color:Float = Rnd(0.1, 0.3)
 		canvas.Clear(color, color, color)
-		canvas.DrawImage(TileSet.GfxTiles[TileSet.FLOOR1], 32.0, 32.0)
+
+		levelMap.Draw(canvas, camera)
 	End Method
 	
 End Class

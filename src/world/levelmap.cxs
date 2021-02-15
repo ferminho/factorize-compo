@@ -36,38 +36,37 @@ Class LevelMap
 	End Method
 
 	Method Update:Void()
-		animDelta = Floor(Time.actTime / TILEANIMSPEED)
+		animDelta = Floor(Time.instance.actTime * TILEANIMSPEED / 1000.0)
 	End Method
 
 	Method Draw:Void(canvas:Canvas, camera:Camera)
-		Local x0:Int = -(camera.x0 Mod TileSize)
-		Local y:Int = -(camera.y0 Mod TileSize)
+		Local x0:Int = -(camera.x0 Mod TILESIZE)
+		Local y:Int = -(camera.y0 Mod TILESIZE)
 
-		Local tileI0:Int = camera.y0 / TileSize
-		Local tileI1:Int = tileI0 + (CanvasHeight / TileSize)
-		Local tileJ0:Int = camera.x0 / TileSize
-		Local tileJ1:Int = tileJ0 + (CanvasWidth / TileSize)
+		Local tileI0:Int = camera.y0 / TILESIZE
+		Local tileI1:Int = tileI0 + (CANVASHEIGHT / TILESIZE)
+		Local tileJ0:Int = camera.x0 / TILESIZE
+		Local tileJ1:Int = tileJ0 + (CANVASWIDTH / TILESIZE)
 		
 		For Local i:Int = tileI0 To tileI1
 			If (i >= 0 And i < height)
 				Local x:Int = x0
 				For Local j:Int = tileJ0 To tileJ1
 					If (j >= 0 And j < width)
-						DrawTilesAt(i * width + j, x, y)
+						DrawTilesAt(canvas, i * width + j, x, y)
 					End If
-					x += TileSize
+					x += TILESIZE
 				End For
 			End If
-			y += TileSize
+			y += TILESIZE
 		End For
 	End Method
-	
-	
+		
 	Method GetGroundTileAt:Int(x:Float, y:Float)
-		Local i:Int = Floor((y - 0.5) / TileSize)
-		Local j:Int = Floor((x + 0.5) / TileSize)
-		If (i < 0 Or i >= height) Then Return Tileset.TVOID
-		If (j < 0 Or j >= width) Then Return Tileset.TVOID
+		Local i:Int = Floor((y - 0.5) / TILESIZE)
+		Local j:Int = Floor((x + 0.5) / TILESIZE)
+		If (i < 0 Or i >= height) Then Return Tileset.ABYSS
+		If (j < 0 Or j >= width) Then Return Tileset.ABYSS
 		Return groundTiles[i * width + j]
 	End Method
 
@@ -75,7 +74,7 @@ Private
 
 	Field animDelta:Int = 0
 	
-	Method DrawTilesAt:Void(position:Int, x:Int, y:Int)
+	Method DrawTilesAt:Void(canvas:Canvas, position:Int, x:Int, y:Int)
 		Local imgN:Int
 		Local animFrames:Int
 		Local img:Image
@@ -84,7 +83,7 @@ Private
 		Local scaleX:Float = 1.0
 		Local scaleY:Float = 1.0
 		
-		For tilemap = EachIn [groundTiles, fixedBlocks, playerBlocks]
+		For Local tilemap:Int[] = EachIn [groundTiles, fixedBlocks, playerBlocks]
 			imgN = tilemap[position]
 			direction = imgN & MASKDIRECTION
 			imgN &= MASKTILE
@@ -94,17 +93,17 @@ Private
 				img = TileSet.GfxTiles[imgN]
 				
 				If (direction = DIRECTIONDOWN)
-					rotation = 90.0
+					angle = -90.0
 				ElseIf (direction = DIRECTIONLEFT)
 					scaleX = -1.0
 				ElseIf (direction = DIRECTIONUP)
 					scaleX = -1.0
-					rotation = -90.0
-				ElseIf (direction = MASKMIRRORX)
+					angle = -90.0
+				ElseIf (direction = MIRRORX)
 					scaleX = -1.0
-				ElseIf (direction = MASKMIRRORY)
+				ElseIf (direction = MIRRORY)
 					scaleY = -1.0
-				ElseIf (direction = MASKMIRRORXY)				
+				ElseIf (direction = MIRRORXY)				
 					scaleX = -1.0
 					scaleY = -1.0
 				EndIf

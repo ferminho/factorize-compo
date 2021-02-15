@@ -1,0 +1,41 @@
+Strict
+
+Import mojo2
+
+Import world.levelmap 
+Import world.tileset
+
+Class TestMap Extends LevelMap
+
+	Method New()
+		Super.New(20, 20)
+		For Local i:Int = 0 To 399
+			groundTiles[i] = TileSet.FLOOR1
+		End For
+		fixedBlocks[40] = TileSet.TUBEEDGE
+		fixedBlocks[41] = TileSet.TUBEEDGE
+		fixedBlocks[100] = TileSet.TUBEEDGE | LevelMap.MIRRORY
+		fixedBlocks[101] = TileSet.TUBEEDGE | LevelMap.MIRRORY
+
+		fixedBlocks[60] = TileSet.TUBEBODY
+		fixedBlocks[61] = TileSet.TUBEBODY
+		fixedBlocks[80] = TileSet.TUBEBODY | LevelMap.MIRRORY
+		fixedBlocks[81] = TileSet.TUBEBODY | LevelMap.MIRRORY
+
+
+		fixedBlocks[22] = TileSet.TUBEHOLE
+		fixedBlocks[42] = TileSet.TUBEHOLE
+		fixedBlocks[62] = TileSet.TUBEHOLE
+		fixedBlocks[82] = TileSet.TUBEHOLE
+		fixedBlocks[102] = TileSet.TUBEHOLE
+		fixedBlocks[122] = TileSet.TUBEHOLE
+
+		fixedBlocks[25] = TileSet.CONVEYOR
+		fixedBlocks[26] = TileSet.CONVEYOR
+		fixedBlocks[27] = TileSet.CONVEYOR
+		fixedBlocks[28] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		fixedBlocks[48] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		fixedBlocks[68] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+	End Method
+
+End Class

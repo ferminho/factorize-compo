@@ -18,7 +18,7 @@ Class Camera
 	Method Update:Void()
 		x = Int(Floor(x + 0.5))
 		y = Int(Floor(y + 0.5))
-		x0 = Int(Floor(x - CanvasHalfWidth + 0.5))
-		y0 = Int(Floor(y - CanvasHalfHeight + 0.5))
+		x0 = Int(Floor(x - CANVASHALFWIDTH + 0.5))
+		y0 = Int(Floor(y - CANVASHALFHEIGHT + 0.5))
 	End Method
 End Class

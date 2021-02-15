@@ -10,5 +10,5 @@ Const CANVASHALFHEIGHT:Float = CANVASHEIGHT / 2.0
 
 Const TILESIZE:Float = 4.0
 
-Const TILEANIMSPEED:Float = 0.5 / 1000.0 ' frames/ms
-Const BLOCKSPEED:Float = TILESIZE / 1000.0 ' pixels/ms
+Const TILEANIMSPEED:Float = 4.0 ' frames/s
+Const BLOCKSPEED:Float = TILESIZE ' pixels/s
