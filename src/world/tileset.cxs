@@ -13,7 +13,7 @@ Public
 	Const GROUND:Int = 1
 	' ---
 	Const ABYSS:Int = GROUND
-	Const FLOOR1:Int = TVOID + 1
+	Const FLOOR1:Int = ABYSS + 1
 	Const FLOOR2:Int = FLOOR1 + 1
 	Const FLOOR3:Int = FLOOR2 + 1
 	Const FLOOR4:Int = FLOOR3 + 1
