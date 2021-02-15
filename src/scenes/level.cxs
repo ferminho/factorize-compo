@@ -1,7 +1,5 @@
 Strict
 
-Public
-
 Import mojo2 
 
 Import world.tileset

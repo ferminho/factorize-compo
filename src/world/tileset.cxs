@@ -1,11 +1,8 @@
 Strict
 
-Public
-
 Import mojo2
 
 Class TileSet
-Public
 
 	Const NONE:Int = 0
 

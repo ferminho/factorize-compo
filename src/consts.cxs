@@ -1,7 +1,5 @@
 Strict
 
-Public
-
 Const SCREENWIDTH:Float = 640.0
 Const SCREENHEIGHT:Float = 640.0
 Const CANVASWIDTH:Float = 64.0

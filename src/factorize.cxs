@@ -8,7 +8,6 @@ Import scenes.game
 Import scenes.loading
 Import time
 
-
 Class Factorize Extends App
 Private
 	Const DesiredUps:Float = 30.0

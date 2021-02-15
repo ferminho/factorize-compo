@@ -1,13 +1,8 @@
 Strict
 
-Private
-
 Import mojo2
 
-Public 
-
 Class Time
-Public
 
 	Field initialTime:Int = 0
 	Field timeDistortion:Float = 1.0

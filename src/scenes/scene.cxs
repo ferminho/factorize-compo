@@ -1,11 +1,8 @@
 Strict
 
-Public
-
 Import mojo2
 
 Interface Scene
-Public
 
 	Const KeepRunning:Int = 0
 	Const Abort:Int = 1

@@ -1,12 +1,9 @@
 Strict
 
-Public
-
 Import mojo2
 Import world.camera
 
 Class Actor
-Public
 
 	Field x:Float, y:Float, z:Float
 	Field directionX:Float

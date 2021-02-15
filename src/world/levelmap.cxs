@@ -1,7 +1,5 @@
 Strict
 
-Public
-
 Import mojo2
 
 Import consts
@@ -9,7 +7,6 @@ Import world.camera
 Import world.tileset
 
 Class LevelMap
-Public
 
 	Const MASKDIRECTION:Int = $700	' 8 most significant bits are for tile index
 	Const DIRECTIONRIGHT:Int = $000

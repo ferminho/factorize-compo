@@ -1,8 +1,5 @@
 Strict
 
-Public
-
-Import cerberus.random
 Import mojo2
 
 Import scenes.level

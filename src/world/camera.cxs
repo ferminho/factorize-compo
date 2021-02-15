@@ -1,12 +1,9 @@
 Strict
 
-Public
-
 Import consts
 Import time
 
 Class Camera
-Public 
 
 	Const Speed:Float = 60.0 ' px / s
 	
