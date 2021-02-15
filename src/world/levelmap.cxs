@@ -40,8 +40,8 @@ Class LevelMap
 	End Method
 
 	Method Draw:Void(canvas:Canvas, camera:Camera)
-		Local x0:Int = -(camera.x0 Mod TILESIZE)
-		Local y:Int = -(camera.y0 Mod TILESIZE)
+		Local x0:Int = -(camera.x0 Mod TILESIZE) + HALFTILESIZE
+		Local y:Int = -(camera.y0 Mod TILESIZE) + HALFTILESIZE
 
 		Local tileI0:Int = camera.y0 / TILESIZE
 		Local tileI1:Int = tileI0 + (CANVASHEIGHT / TILESIZE)

@@ -12,6 +12,16 @@ Class TestMap Extends LevelMap
 		For Local i:Int = 0 To 399
 			groundTiles[i] = TileSet.FLOOR1
 		End For
+		For Local i:Int = 9 To 19
+			groundTiles[i] = TileSet.ABYSS
+		End For
+		For Local i:Int = 29 To 39
+			groundTiles[i] = TileSet.ABYSS
+		End For
+		For Local i:Int = 50 To 59
+			groundTiles[i] = TileSet.ABYSS
+		End For
+
 		fixedBlocks[40] = TileSet.TUBEEDGE
 		fixedBlocks[41] = TileSet.TUBEEDGE
 		fixedBlocks[100] = TileSet.TUBEEDGE | LevelMap.MIRRORY
@@ -22,7 +32,6 @@ Class TestMap Extends LevelMap
 		fixedBlocks[80] = TileSet.TUBEBODY | LevelMap.MIRRORY
 		fixedBlocks[81] = TileSet.TUBEBODY | LevelMap.MIRRORY
 
-
 		fixedBlocks[22] = TileSet.TUBEHOLE
 		fixedBlocks[42] = TileSet.TUBEHOLE
 		fixedBlocks[62] = TileSet.TUBEHOLE
@@ -30,12 +39,13 @@ Class TestMap Extends LevelMap
 		fixedBlocks[102] = TileSet.TUBEHOLE
 		fixedBlocks[122] = TileSet.TUBEHOLE
 
+		fixedBlocks[24] = TileSet.CONVEYOR
 		fixedBlocks[25] = TileSet.CONVEYOR
 		fixedBlocks[26] = TileSet.CONVEYOR
-		fixedBlocks[27] = TileSet.CONVEYOR
-		fixedBlocks[28] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
-		fixedBlocks[48] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
-		fixedBlocks[68] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		fixedBlocks[27] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		fixedBlocks[47] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		fixedBlocks[67] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+
 	End Method
 
 End Class
