@@ -5,6 +5,7 @@ Import mojo2
 
 Import scenes.scene
 Import time
+Import ui.mouse
 Import world.tileset
 
 Class Loading Implements Scene
@@ -13,6 +14,7 @@ Class Loading Implements Scene
 		Time.Instance.Update()
 		InitRandom()
 		TileSet.Initialize()
+		Mouse.Instance.Update()
 	End Method
 
 	Method Update:Int()

@@ -1,0 +1,15 @@
+Strict
+
+Import mojo2
+
+Import consts
+Import time
+
+Class Mouse
+
+	Global Instance:Mouse= New Mouse()
+
+	Method Update:Void()
+	End Method
+
+End Class

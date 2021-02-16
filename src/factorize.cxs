@@ -33,6 +33,7 @@ Private
 
 		If (time >= nextExpectedUpdate)
 			Time.Instance.Update()
+			Mouse.Instance.Update()
 			UpdateScenes()
 			nextExpectedUpdate = time + UpdateTime
 		End If

@@ -3,6 +3,7 @@ Strict
 Import mojo2 
 
 Import scenes.scene
+Import ui.mouse
 Import world.camera
 Import world.levelmap
 Import world.testmap
@@ -31,7 +32,7 @@ Class Level Implements Scene
 		canvas.Clear(color, color, color)
 
 		levelMap.DrawBottomLayers(canvas, camera)
-		levelMap.DrawTopLayers(canvas, camera)		
+		levelMap.DrawTopLayers(canvas, camera)
 	End Method
 	
 End Class
