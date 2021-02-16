@@ -24,8 +24,8 @@ Class LevelMap
 	Field height:Int
 
 	Field groundTiles:Int[]
-	Field fixedBlocks:Int[]
 	Field playerBlocks:Int[]
+	Field fixedBlocks:Int[]
 
 	Method New(width:Int, height:Int)
 		Self.width = width
@@ -39,7 +39,27 @@ Class LevelMap
 		animDelta = Floor(Time.instance.actTime * TILEANIMSPEED / 1000.0)
 	End Method
 
-	Method Draw:Void(canvas:Canvas, camera:Camera)
+	Method DrawBottomLayers:Void(canvas:Canvas, camera:Camera)
+		DrawTilemaps(canvas, [groundTiles, playerBlocks], camera)
+	End Method
+	
+	Method DrawTopLayers:Void(canvas:Canvas, camera:Camera)
+		DrawTilemaps(canvas, [fixedBlocks], camera)
+	End Method
+
+	Method GetGroundTileAt:Int(x:Float, y:Float)
+		Local i:Int = Floor((y - 0.5) / TILESIZE)
+		Local j:Int = Floor((x + 0.5) / TILESIZE)
+		If (i < 0 Or i >= height) Then Return Tileset.ABYSS
+		If (j < 0 Or j >= width) Then Return Tileset.ABYSS
+		Return groundTiles[i * width + j]
+	End Method
+
+Private
+
+	Field animDelta:Int = 0
+
+	Method DrawTilemaps:Void(canvas:Canvas, tilemaps:Int[][], camera:Camera)
 		Local x0:Int = -(camera.x0 Mod TILESIZE) + HALFTILESIZE
 		Local y:Int = -(camera.y0 Mod TILESIZE) + HALFTILESIZE
 
@@ -53,7 +73,7 @@ Class LevelMap
 				Local x:Int = x0
 				For Local j:Int = tileJ0 To tileJ1
 					If (j >= 0 And j < width)
-						DrawTilesAt(canvas, i * width + j, x, y)
+						DrawTilesAt(canvas, tilemaps, i * width + j, x, y)
 					End If
 					x += TILESIZE
 				End For
@@ -61,20 +81,8 @@ Class LevelMap
 			y += TILESIZE
 		End For
 	End Method
-		
-	Method GetGroundTileAt:Int(x:Float, y:Float)
-		Local i:Int = Floor((y - 0.5) / TILESIZE)
-		Local j:Int = Floor((x + 0.5) / TILESIZE)
-		If (i < 0 Or i >= height) Then Return Tileset.ABYSS
-		If (j < 0 Or j >= width) Then Return Tileset.ABYSS
-		Return groundTiles[i * width + j]
-	End Method
-
-Private
-
-	Field animDelta:Int = 0
 	
-	Method DrawTilesAt:Void(canvas:Canvas, position:Int, x:Int, y:Int)
+	Method DrawTilesAt:Void(canvas:Canvas, tilemaps:Int[][], position:Int, x:Int, y:Int)
 		Local imgN:Int
 		Local animFrames:Int
 		Local img:Image
@@ -83,7 +91,7 @@ Private
 		Local scaleX:Float = 1.0
 		Local scaleY:Float = 1.0
 		
-		For Local tilemap:Int[] = EachIn [groundTiles, fixedBlocks, playerBlocks]
+		For Local tilemap:Int[] = EachIn tilemaps
 			imgN = tilemap[position]
 			direction = imgN & MASKDIRECTION
 			imgN &= MASKTILE

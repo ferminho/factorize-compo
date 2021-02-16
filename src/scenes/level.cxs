@@ -30,7 +30,8 @@ Class Level Implements Scene
 		Local color:Float = Rnd(0.1, 0.3)
 		canvas.Clear(color, color, color)
 
-		levelMap.Draw(canvas, camera)
+		levelMap.DrawBottomLayers(canvas, camera)
+		levelMap.DrawTopLayers(canvas, camera)		
 	End Method
 	
 End Class
