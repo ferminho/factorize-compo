@@ -14,24 +14,28 @@ Class TileSet
 	Const FLOOR2:Int = FLOOR1 + 1
 	Const FLOOR3:Int = FLOOR2 + 1
 	Const FLOOR4:Int = FLOOR3 + 1
-	
+
 	' ---
-	Const PLACEABLES:Int = FLOOR4 + 1
+	Const FIXED:Int = FLOOR4 + 1
 	' ---
-	Const TUBEHOLE:Int = PLACEABLES
+	Const TUBEHOLE:Int = FIXED
 	Const TUBEHOLEF2:Int = TUBEHOLE + 1
 	Const TUBEHOLEF3:Int = TUBEHOLEF2 + 1
 	Const TUBEHOLEF4:Int = TUBEHOLEF3 + 1
 	Const TUBEEDGE:Int = TUBEHOLEF4 + 1
 	Const TUBEBODY:Int = TUBEEDGE + 1
-	Const CONVEYOR:Int = TUBEBODY + 1
+	Const WALL:Int = TUBEBODY + 1
+	
+	' ---
+	Const PLACEABLES:Int = WALL + 1
+	' ---
+	Const CONVEYOR:Int = PLACEABLES + 1
 	Const CONVEYORF2:Int = CONVEYOR + 1
 	Const CONVEYORF3:Int = CONVEYORF2 + 1
 	Const CONVEYORF4:Int = CONVEYORF3 + 1
-	Const WALL:Int = CONVEYORF4 + 1
 
 	' ---
-	Const PARTS:Int = WALL + 1
+	Const PARTS:Int = CONVEYORF4 + 1
 	' ---
 	Const PARTCONCRETE:Int = PARTS
 
