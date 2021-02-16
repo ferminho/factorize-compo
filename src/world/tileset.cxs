@@ -29,7 +29,7 @@ Class TileSet
 	' ---
 	Const PLACEABLES:Int = WALL + 1
 	' ---
-	Const CONVEYOR:Int = PLACEABLES + 1
+	Const CONVEYOR:Int = PLACEABLES
 	Const CONVEYORF2:Int = CONVEYOR + 1
 	Const CONVEYORF3:Int = CONVEYORF2 + 1
 	Const CONVEYORF4:Int = CONVEYORF3 + 1
