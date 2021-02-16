@@ -15,7 +15,7 @@ Class Time
 	Field frames:Int = 0
 	Field fps:Float = 0.0
 	
-	Global instance:Time = New Time()
+	Global Instance:Time = New Time()
 	
 	Method New()
 		initialTime = Millisecs()

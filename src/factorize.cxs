@@ -32,7 +32,7 @@ Private
 		Local time:Int = Millisecs()
 
 		If (time >= nextExpectedUpdate)
-			Time.instance.Update()
+			Time.Instance.Update()
 			UpdateScenes()
 			nextExpectedUpdate = time + UpdateTime
 		End If

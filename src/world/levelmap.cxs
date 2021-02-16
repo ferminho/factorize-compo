@@ -36,7 +36,7 @@ Class LevelMap
 	End Method
 
 	Method Update:Void()
-		animDelta = Floor(Time.instance.actTime * TILEANIMSPEED / 1000.0)
+		animDelta = Floor(Time.Instance.actTime * TILEANIMSPEED / 1000.0)
 	End Method
 
 	Method DrawBottomLayers:Void(canvas:Canvas, camera:Camera)
