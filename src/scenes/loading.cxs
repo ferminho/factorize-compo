@@ -3,12 +3,14 @@ Strict
 Import cerberus.random
 Import mojo2
 
-Import world.tileset
 Import scenes.scene
+Import time
+Import world.tileset
 
 Class Loading Implements Scene
 
 	Method Start:Void()
+		Time.Instance.Update()
 		InitRandom()
 		TileSet.Initialize()
 	End Method

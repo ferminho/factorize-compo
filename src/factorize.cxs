@@ -20,7 +20,6 @@ Private
 	Field nextExpectedUpdate:Int 
 
 	Method OnCreate:Int()
-		Time.instance.Update()
 		canvas = New Canvas()
 		canvas.SetProjection2d(0.0, CANVASWIDTH, 0.0, CANVASHEIGHT)
 		scenes[0].Start()
