@@ -69,15 +69,15 @@ Private
 		Local tileJ1:Int = tileJ0 + (CANVASWIDTH / TILESIZE)
 		
 		For Local i:Int = tileI0 To tileI1
-			If (i >= 0 And i < height)
-				Local x:Int = x0
-				For Local j:Int = tileJ0 To tileJ1
-					If (j >= 0 And j < width)
-						DrawTilesAt(canvas, tilemaps, i * width + j, x, y)
-					End If
-					x += TILESIZE
-				End For
-			End If
+			Local x:Int = x0
+			For Local j:Int = tileJ0 To tileJ1
+				If (i >= 0 And i < height And j >= 0 And j < width)
+					DrawTilesAt(canvas, tilemaps, i * width + j, x, y)
+				Else
+					canvas.DrawImage(TileSet.GfxTiles[TileSet.ABYSS], x, y)
+				End If
+				x += TILESIZE
+			End For
 			y += TILESIZE
 		End For
 	End Method
