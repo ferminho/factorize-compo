@@ -7,9 +7,81 @@ Import time
 
 Class Mouse
 
+	Const IDLE:Int = 0
+	Const CLICK:Int = 1
+	Const ALTCLICK:Int = 2
+	Const DRAGGING:Int = 3
+
 	Global Instance:Mouse= New Mouse()
 
+	Field x:Int, y:Int
+	Field prevx:Int, prevy:Int
+	Field scroll:Int = 0
+	Field buttonState:Int = IDLE
+
 	Method Update:Void()
+		prevx = x
+		prevy = y
+		x = TouchX(0)
+		y = TouchY(0)
+		
+		Local multiFinger:Bool = TouchDown(0) And TouchDown(1)
+		Local actTime:Int = Time.Instance.actTime
+		
+		If (multiFinger)
+			buttonState = IDLE
+			wasClickingLeft = False
+			wasClickingRight = False
+			scroll = y - prevy
+		Else If (waitingRelease)
+			If (Not MouseDown(MOUSE_LEFT) And Not TouchDown(0) And Not MouseDown(MOUSE_RIGHT))
+				waitingRelease = False
+				wasClickingLeft = False
+				wasClickingRight = False
+			End If
+		Else
+			If buttonState = DRAGGING
+				If (Not MouseDown(MOUSE_LEFT) And Not TouchDown(0))
+					buttonState = IDLE
+				End If
+			Else
+				buttonState = IDLE
+				
+				If (MouseDown(MOUSE_LEFT) Or TouchDown(0))
+					If (wasClickingLeft And (actTime - clickTime) >= LONGPRESSTIMEMS)
+						buttonState = ALTCLICK
+						waitingRelease = True
+					Else If (Not wasClickingLeft)
+						wasClickingLeft = True
+						clickTime = actTime
+					End If
+				Else
+					If (wasClickingLeft)
+						buttonState = CLICK
+						wasClickingLeft = False
+					Else If (MouseDown(MOUSE_RIGHT))
+						wasClickingRight = True
+					Else If (wasClickingRight)
+						buttonState = ALTCLICK
+					End If
+				End If
+				
+			End If
+
+			scroll = MouseZ() * MOUSEWHEELSCROLLPX
+		End If
+	
 	End Method
+	
+Private
+
+	Const LONGPRESSTIMEMS:Int = 1500
+	Const MOUSEWHEELSCROLLPX:Int = 50
+	
+	Field wasClickingLeft:Bool = False
+	Field wasClickingRight:Bool = False
+	Field clickTime:Int = 0
+
+	Field waitingRelease:Bool = False
 
 End Class
