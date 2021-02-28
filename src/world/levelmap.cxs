@@ -60,12 +60,16 @@ Private
 	Field animDelta:Int = 0
 
 	Method DrawTilemaps:Void(canvas:Canvas, tilemaps:Int[][], camera:Camera)
-		Local x0:Int = -(camera.x0 Mod TILESIZE) + HALFTILESIZE
-		Local y:Int = -(camera.y0 Mod TILESIZE) + HALFTILESIZE
+		Local camX0Mod:Int = camera.x0 Mod TILESIZE
+		If (camX0Mod < 0.0) Then camX0Mod += TILESIZE
+		Local camY0Mod:Int = camera.y0 Mod TILESIZE
+		If (camY0Mod < 0.0) Then camY0Mod += TILESIZE
+		Local x0:Int = -camX0Mod + HALFTILESIZE
+		Local y:Int = -camY0Mod + HALFTILESIZE
 
-		Local tileI0:Int = camera.y0 / TILESIZE
+		Local tileI0:Int = Floor(camera.y0 / TILESIZE)
 		Local tileI1:Int = tileI0 + (CANVASHEIGHT / TILESIZE)
-		Local tileJ0:Int = camera.x0 / TILESIZE
+		Local tileJ0:Int = Floor(camera.x0 / TILESIZE)
 		Local tileJ1:Int = tileJ0 + (CANVASWIDTH / TILESIZE)
 		
 		For Local i:Int = tileI0 To tileI1
