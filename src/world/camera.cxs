@@ -1,6 +1,7 @@
 Strict
 
 Import consts
+Import ui.mouse
 Import time
 
 Class Camera
@@ -16,8 +17,20 @@ Class Camera
 	End Method
 
 	Method Update:Void()
+		Local mouse:Mouse = Mouse.Instance
+		
+		If (mouse.buttonState = Mouse.DRAGGING)
+			x += mouse.prevx - mouse.x
+			y += mouse.prevy - mouse.y
+		Else If (KeyHit(KEY_LEFT)) Then x -= 1
+		Else If (KeyHit(KEY_RIGHT)) Then x += 1
+		Else If (KeyHit(KEY_UP)) Then y -= 1
+		Else If (KeyHit(KEY_DOWN)) Then y += 1
+		End If
+	
 		x = Int(Floor(x + 0.5))
 		y = Int(Floor(y + 0.5))
+
 		x0 = Int(Floor(x - CANVASHALFWIDTH + 0.5))
 		y0 = Int(Floor(y - CANVASHALFHEIGHT + 0.5))
 	End Method

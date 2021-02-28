@@ -4,6 +4,7 @@ Import mojo2
 
 Import consts
 Import time
+Import ui.screen
 
 Class Mouse
 
@@ -22,8 +23,8 @@ Class Mouse
 	Method Update:Void()
 		prevx = x
 		prevy = y
-		x = TouchX(0)
-		y = TouchY(0)
+		x = TouchX(0) * Screen.Instance.widthRatio
+		y = TouchY(0) * Screen.Instance.heightRatio
 		
 		Local multiFinger:Bool = TouchDown(0) And TouchDown(1)
 		Local actTime:Int = Time.Instance.actTime
