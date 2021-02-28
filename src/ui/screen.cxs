@@ -1,0 +1,23 @@
+Strict
+
+Import mojo2
+
+Import consts
+
+Class Screen
+
+	Field screenWidth:Float = 0.0
+	Field screenHeight:Float = 0.0
+	Field widthRatio:Float = 1.0
+	Field heightRatio:Float = 1.0
+
+	Global Instance:Screen = New Screen()
+
+	Method Update:Void()
+		screenWidth = DeviceWidth()
+		screenHeight = DeviceHeight()
+		widthRatio = CANVASWIDTH / screenWidth
+		heightRatio = CANVASHEIGHT / screenHeight
+	End Method
+
+End Class

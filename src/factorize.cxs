@@ -7,6 +7,7 @@ Import consts
 Import scenes.game
 Import scenes.loading
 Import time
+Import ui.screen
 
 Class Factorize Extends App
 Private
@@ -22,6 +23,8 @@ Private
 	Method OnCreate:Int()
 		canvas = New Canvas()
 		canvas.SetProjection2d(0.0, CANVASWIDTH, 0.0, CANVASHEIGHT)
+		Screen.Instance.Update()
+		
 		scenes[0].Start()
 		
 		nextExpectedUpdate = Millisecs()
@@ -32,6 +35,7 @@ Private
 		Local time:Int = Millisecs()
 
 		If (time >= nextExpectedUpdate)
+			Screen.Instance.Update()
 			Time.Instance.Update()
 			Mouse.Instance.Update()
 			UpdateScenes()
