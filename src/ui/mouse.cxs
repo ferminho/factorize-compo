@@ -51,9 +51,14 @@ Class Mouse
 					If (wasClickingLeft And (actTime - clickTime) >= LONGPRESSTIMEMS)
 						buttonState = ALTCLICK
 						waitingRelease = True
-					Else If (Not wasClickingLeft)
-						wasClickingLeft = True
-						clickTime = actTime
+					Else
+						If (Not wasClickingLeft)
+							wasClickingLeft = True
+							clickTime = actTime
+						End If
+						If (x <> prevx Or y <> prevy)
+							buttonState = DRAGGING
+						End If
 					End If
 				Else
 					If (wasClickingLeft)
