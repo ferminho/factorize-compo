@@ -6,7 +6,7 @@ Import time
 
 Class Camera
 
-	Const Speed:Float = 60.0 ' px / s
+	Const SPEED:Float = 60.0 ' px / s
 	
 	Field x:Float, y:Float
 	Field x0:Int, y0: Int	' screen origin
@@ -18,14 +18,20 @@ Class Camera
 
 	Method Update:Void()
 		Local mouse:Mouse = Mouse.Instance
+		Local delta:Float = Time.Instance.realLastFrame
+		Local moveStep:Float = (SPEED * delta) / 1000.0
 		
 		If (mouse.buttonState = Mouse.DRAGGING)
 			x += mouse.prevx - mouse.x
 			y += mouse.prevy - mouse.y
-		Else If (KeyHit(KEY_LEFT)) Then x -= 1
-		Else If (KeyHit(KEY_RIGHT)) Then x += 1
-		Else If (KeyHit(KEY_UP)) Then y -= 1
-		Else If (KeyHit(KEY_DOWN)) Then y += 1
+		Else If (mouse.x = 0.0)
+			x -= moveStep
+		Else If (mouse.x = 63.0)
+			x += moveStep
+		Else If (mouse.y = 0.0)
+			y -= moveStep
+		Else If (mouse.y = 63.0)
+			y += moveStep
 		End If
 	
 		x = Int(Floor(x + 0.5))
