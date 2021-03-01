@@ -24,7 +24,8 @@ Class TileSet
 	Const TUBEHOLEF4:Int = TUBEHOLEF3 + 1
 	Const TUBEEDGE:Int = TUBEHOLEF4 + 1
 	Const TUBEBODY:Int = TUBEEDGE + 1
-	Const WALL:Int = TUBEBODY + 1
+	Const TUBEFLAT:Int = TUBEBODY + 1
+	Const WALL:Int = TUBEFLAT + 1
 	
 	' ---
 	Const PLACEABLES:Int = WALL + 1

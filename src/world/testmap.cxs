@@ -32,12 +32,12 @@ Class TestMap Extends LevelMap
 		fixedBlocks[80] = TileSet.TUBEBODY | LevelMap.MIRRORY
 		fixedBlocks[81] = TileSet.TUBEBODY | LevelMap.MIRRORY
 
-		fixedBlocks[22] = TileSet.TUBEHOLE
+'		fixedBlocks[22] = TileSet.TUBEHOLE
 		fixedBlocks[42] = TileSet.TUBEHOLE
 		fixedBlocks[62] = TileSet.TUBEHOLE
 		fixedBlocks[82] = TileSet.TUBEHOLE
 		fixedBlocks[102] = TileSet.TUBEHOLE
-		fixedBlocks[122] = TileSet.TUBEHOLE
+'		fixedBlocks[122] = TileSet.TUBEHOLE
 
 		fixedBlocks[24] = TileSet.CONVEYOR
 		fixedBlocks[25] = TileSet.CONVEYOR
