@@ -1,0 +1,21 @@
+Strict
+
+Class Log
+	Function Warn:Void(msg:String)
+		LogMessage(LEVELWARN, msg)
+	End Function
+
+	Function Error:Void(msg:String)
+		LogMessage(LEVELERROR, msg)
+	End Function
+	
+	Private
+	
+	Const LEVELWARN:String = "WARNING"
+	Const LEVELERROR:String = "ERROR"
+	
+	Function LogMessage:Void(level:String, msg:String)
+		Local date:Int[] = GetDate()
+		Print(date[0] + "-" + date[1] + "-" + date[2] + " " + date[3] + ":" + date[4] + ":" + date[5] + "." + date[6] + " " + level + " - " + msg)
+	End Function
+End Class
