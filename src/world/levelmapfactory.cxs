@@ -1,0 +1,57 @@
+Strict
+
+Import log
+Import world.levelmap
+
+Class LevelMapFactory
+	Function LoadFromFile:LevelMap(jsonFilePath:String)
+		Local content:String = LoadString(jsonFilePath)
+		Return LoadFromString(content)
+	End Function	
+
+	Function LoadFromString:LevelMap(json:String)
+		Local parser:JsonParser = New JsonParser()
+		Local root:JsonValue = parser.ParseValue(json)
+		Return ReadRoot(root)
+	End Function
+
+Private
+
+	Const LAYERGROUND:String = "ground"
+	Const LAYERTOP:String = "top"
+	Const LAYERSPAWNER:String = "spawners"
+	Const LAYERCONSUMER:String = "consumers"
+
+	Function ReadRoot:LevelMap(root:JsonValue)
+		Local rootJson:JsonObject = JsonObject(root)
+		Local width:Int = rootJson.GetInt("width")
+		Local height:Int = rootJson.GetInt("height")
+		Local map:LevelMap = New LevelMap(width, height)
+		Local layers:JsonValue = rootJson.Get("layers")
+		ReadLayers(map, layers)
+		
+		Return map
+	End Function
+
+	Function ReadLayers:Void(map:LevelMap, layers:JsonValue)
+		Local layersArray:JsonArray = JsonArray(layers)
+		
+		For Local i:Int = 0 To layersArray.Length - 1
+			ReadLayer(map, layersArray.Get(i)
+		End For
+	End Function
+	
+	Function ReadLayer:Void(map:LevelMap, layer:JsonValue)
+		Local layerJson:JsonObjects = JsonObject(layer)
+		Local name:String = layerJson.GetString("name").ToLower()
+		
+		Select (name)
+			Case LAYERGROUND
+			Case LAYERTOP
+			Case LAYERSPAWNER
+			Case LAYERCONSUMER
+			Default
+				Log.Warn("LevelMapFactory: Unrecognized layer " + name)
+		End Select
+	End Function
+End Class
