@@ -22,29 +22,29 @@ Class TestMap Extends LevelMap
 			groundTiles[i] = TileSet.ABYSS
 		End For
 
-		fixedBlocks[40] = TileSet.TUBEEDGE
-		fixedBlocks[41] = TileSet.TUBEEDGE
-		fixedBlocks[100] = TileSet.TUBEEDGE | LevelMap.MIRRORY
-		fixedBlocks[101] = TileSet.TUBEEDGE | LevelMap.MIRRORY
+		topTiles[40] = TileSet.TUBEEDGE
+		topTiles[41] = TileSet.TUBEEDGE
+		topTiles[100] = TileSet.TUBEEDGE | LevelMap.MIRRORY
+		topTiles[101] = TileSet.TUBEEDGE | LevelMap.MIRRORY
 
-		fixedBlocks[60] = TileSet.TUBEBODY
-		fixedBlocks[61] = TileSet.TUBEBODY
-		fixedBlocks[80] = TileSet.TUBEBODY | LevelMap.MIRRORY
-		fixedBlocks[81] = TileSet.TUBEBODY | LevelMap.MIRRORY
+		topTiles[60] = TileSet.TUBEBODY
+		topTiles[61] = TileSet.TUBEBODY
+		topTiles[80] = TileSet.TUBEBODY | LevelMap.MIRRORY
+		topTiles[81] = TileSet.TUBEBODY | LevelMap.MIRRORY
 
-'		fixedBlocks[22] = TileSet.TUBEHOLE
-		fixedBlocks[42] = TileSet.TUBEHOLE
-		fixedBlocks[62] = TileSet.TUBEHOLE
-		fixedBlocks[82] = TileSet.TUBEHOLE
-		fixedBlocks[102] = TileSet.TUBEHOLE
-'		fixedBlocks[122] = TileSet.TUBEHOLE
+'		topTiles[22] = TileSet.TUBEHOLE
+		topTiles[42] = TileSet.TUBEHOLE
+		topTiles[62] = TileSet.TUBEHOLE
+		topTiles[82] = TileSet.TUBEHOLE
+		topTiles[102] = TileSet.TUBEHOLE
+'		topTiles[122] = TileSet.TUBEHOLE
 
-		fixedBlocks[24] = TileSet.CONVEYOR
-		fixedBlocks[25] = TileSet.CONVEYOR
-		fixedBlocks[26] = TileSet.CONVEYOR
-		fixedBlocks[27] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
-		fixedBlocks[47] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
-		fixedBlocks[67] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		topTiles[24] = TileSet.CONVEYOR
+		topTiles[25] = TileSet.CONVEYOR
+		topTiles[26] = TileSet.CONVEYOR
+		topTiles[27] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		topTiles[47] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
+		topTiles[67] = TileSet.CONVEYOR | LevelMap.DIRECTIONDOWN
 
 	End Method
 

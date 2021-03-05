@@ -24,13 +24,13 @@ Class LevelMap
 
 	Field groundTiles:Int[]
 	Field playerBlocks:Int[]
-	Field fixedBlocks:Int[]
+	Field topTiles:Int[]
 
 	Method New(width:Int, height:Int)
 		Self.width = width
 		Self.height = height
 		groundTiles = New Int[width * height]
-		fixedBlocks = New Int[width * height]
+		topTiles = New Int[width * height]
 		playerBlocks = New Int[width * height]
 	End Method
 
@@ -43,7 +43,7 @@ Class LevelMap
 	End Method
 	
 	Method DrawTopLayers:Void(canvas:Canvas, camera:Camera)
-		DrawTilemaps(canvas, [fixedBlocks], camera)
+		DrawTilemaps(canvas, [topTiles], camera)
 	End Method
 
 	Method GetGroundTileAt:Int(x:Float, y:Float)
