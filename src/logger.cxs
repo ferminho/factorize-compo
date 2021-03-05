@@ -1,6 +1,8 @@
 Strict
 
-Class Log
+Import mojo.app
+
+Class Logger
 	Function Warn:Void(msg:String)
 		LogMessage(LEVELWARN, msg)
 	End Function

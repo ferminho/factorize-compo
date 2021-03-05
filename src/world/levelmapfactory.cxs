@@ -1,6 +1,8 @@
 Strict
 
-Import log
+Import brl.json
+
+Import logger
 Import world.levelmap
 
 Class LevelMapFactory
@@ -10,8 +12,8 @@ Class LevelMapFactory
 	End Function	
 
 	Function LoadFromString:LevelMap(json:String)
-		Local parser:JsonParser = New JsonParser()
-		Local root:JsonValue = parser.ParseValue(json)
+		Local parser:JsonParser = New JsonParser(json)
+		Local root:JsonValue = parser.ParseValue()
 		Return ReadRoot(root)
 	End Function
 
@@ -21,7 +23,7 @@ Private
 	Const ATTRHEIGHT:String = "height"
 	Const ATTRLAYERS:String = "layers"
 	Const ATTRNAME:String = "name"
-	Const ATTRDATA:String = "name"
+	Const ATTRDATA:String = "data"
 
 	Const LAYERGROUND:String = "ground"
 	Const LAYERTOP:String = "top"
@@ -48,12 +50,12 @@ Private
 		Local layersArray:JsonArray = JsonArray(layers)
 		
 		For Local i:Int = 0 To layersArray.Length - 1
-			ReadLayer(map, layersArray.Get(i)
+			ReadLayer(map, layersArray.Get(i))
 		End For
 	End Function
 	
 	Function ReadLayer:Void(map:LevelMap, layer:JsonValue)
-		Local layerJson:JsonObjects = JsonObject(layer)
+		Local layerJson:JsonObject = JsonObject(layer)
 		Local name:String = layerJson.GetString(ATTRNAME).ToLower()
 		
 		Select (name)
@@ -64,7 +66,7 @@ Private
 			Case LAYERSPAWNER
 			Case LAYERCONSUMER
 			Default
-				Log.Warn("LevelMapFactory: Unrecognized layer " + name)
+				Logger.Warn("LevelMapFactory: Unrecognized layer " + name)
 		End Select
 	End Function
 	
@@ -77,9 +79,10 @@ Private
 		For Local i:Int = 0 To dataArray.Length - 1
 			val = dataArray.GetInt(i)
 			tile = val & ~(FLAGFLIPPEDDIAGONALLY | FLAGFLIPPEDHORIZONTALLY | FLAGFLIPPEDDIAGONALLY)
-			flipX = val & FLAGFLIPPEDHORIZONTALLY
-			flipY = val & FLAGFLIPPEDVERTICALLY
-			flipAD = val & FLAGFLIPPEDDIAGONALLY
+			tile = Max(0, tile - 1) ' Tiled reserves 0 for no tile, but we also have a 0 blank tile so we need to shift one value to 0
+			flipX = val & FLAGFLIPPEDHORIZONTALLY > 0
+			flipY = val & FLAGFLIPPEDVERTICALLY > 0
+			flipAD = val & FLAGFLIPPEDDIAGONALLY > 0
 			If (flipAD)
 				If (flipX And Not flipY)
 					tile = tile | LevelMap.DIRECTIONDOWN
@@ -95,5 +98,22 @@ Private
 			End If
 			target[i] = tile
 		End For
+	End Function
+	
+	Function PrintType:Void(value:JsonValue)
+		Select (value.Type)
+			Case JsonValue.OBJECTTYPE
+				Print("OBJECT")
+			Case JsonValue.ARRAYTYPE
+				Print("ARRAY")
+			Case JsonValue.NULLTYPE
+				Print("NULL")
+			Case JsonValue.BOOLTYPE
+				Print("BOOL")
+			Case JsonValue.NUMBERTYPE
+				Print("NUMBER")
+			Case JsonValue.STRINGTYPE
+				Print("STRING")
+		End Select
 	End Function
 End Class

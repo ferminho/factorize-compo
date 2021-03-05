@@ -6,7 +6,7 @@ Import scenes.scene
 Import ui.mouse
 Import world.camera
 Import world.levelmap
-Import world.testmap
+Import world.levelmapfactory
 Import world.tileset
 
 Class Level Implements Scene
@@ -16,7 +16,7 @@ Class Level Implements Scene
 
 	Method Start:Void()
 		camera = New Camera()
-		levelMap = New TestMap()
+		levelMap = LevelMapFactory.LoadFromFile("levels/test.json")
 	End Method
 
 	Method Update:Int()
