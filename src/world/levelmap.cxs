@@ -18,7 +18,6 @@ Class LevelMap
 	Const DIRECTIONUP:Int = $300
 	Const MIRRORX:Int = $400
 	Const MIRRORY:Int = $500
-	Const MIRRORXY:Int = $600
 
 	Field width:Int
 	Field height:Int
@@ -114,9 +113,6 @@ Private
 				ElseIf (direction = MIRRORX)
 					scaleX = -1.0
 				ElseIf (direction = MIRRORY)
-					scaleY = -1.0
-				ElseIf (direction = MIRRORXY)				
-					scaleX = -1.0
 					scaleY = -1.0
 				EndIf
 
