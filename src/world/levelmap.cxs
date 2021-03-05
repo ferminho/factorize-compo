@@ -107,6 +107,7 @@ Private
 					angle = -90.0
 				ElseIf (direction = DIRECTIONLEFT)
 					scaleX = -1.0
+					scaleY = -1.0
 				ElseIf (direction = DIRECTIONUP)
 					scaleX = -1.0
 					angle = -90.0
