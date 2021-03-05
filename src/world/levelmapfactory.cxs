@@ -17,17 +17,28 @@ Class LevelMapFactory
 
 Private
 
+	Const ATTRWIDTH:String = "width"
+	Const ATTRHEIGHT:String = "height"
+	Const ATTRLAYERS:String = "layers"
+	Const ATTRNAME:String = "name"
+	Const ATTRDATA:String = "name"
+
 	Const LAYERGROUND:String = "ground"
 	Const LAYERTOP:String = "top"
 	Const LAYERSPAWNER:String = "spawners"
 	Const LAYERCONSUMER:String = "consumers"
+	
+	Const FLAGFLIPPEDHORIZONTALLY:Int = $80000000
+	Const FLAGFLIPPEDVERTICALLY:Int = $40000000
+	Const FLAGFLIPPEDDIAGONALLY:Int = $20000000
+	
 
 	Function ReadRoot:LevelMap(root:JsonValue)
 		Local rootJson:JsonObject = JsonObject(root)
-		Local width:Int = rootJson.GetInt("width")
-		Local height:Int = rootJson.GetInt("height")
+		Local width:Int = rootJson.GetInt(ATTRWIDTH)
+		Local height:Int = rootJson.GetInt(ATTRHEIGHT)
 		Local map:LevelMap = New LevelMap(width, height)
-		Local layers:JsonValue = rootJson.Get("layers")
+		Local layers:JsonValue = rootJson.Get(ATTRLAYERS)
 		ReadLayers(map, layers)
 		
 		Return map
@@ -43,15 +54,46 @@ Private
 	
 	Function ReadLayer:Void(map:LevelMap, layer:JsonValue)
 		Local layerJson:JsonObjects = JsonObject(layer)
-		Local name:String = layerJson.GetString("name").ToLower()
+		Local name:String = layerJson.GetString(ATTRNAME).ToLower()
 		
 		Select (name)
 			Case LAYERGROUND
+				ReadData(layerJson.Get(ATTRDATA), map.groundTiles)
 			Case LAYERTOP
+				ReadData(layerJson.Get(ATTRDATA), map.topTiles)
 			Case LAYERSPAWNER
 			Case LAYERCONSUMER
 			Default
 				Log.Warn("LevelMapFactory: Unrecognized layer " + name)
 		End Select
+	End Function
+	
+	Function ReadData:Void(data:JsonValue, target:Int[])
+		Local dataArray:JsonArray = JsonArray(data)
+		Local val:Int
+		Local tile:Int
+		Local flipX:Bool, flipY:Bool, flipAD:Bool
+		
+		For Local i:Int = 0 To dataArray.Length - 1
+			val = dataArray.GetInt(i)
+			tile = val & ~(FLAGFLIPPEDDIAGONALLY | FLAGFLIPPEDHORIZONTALLY | FLAGFLIPPEDDIAGONALLY)
+			flipX = val & FLAGFLIPPEDHORIZONTALLY
+			flipY = val & FLAGFLIPPEDVERTICALLY
+			flipAD = val & FLAGFLIPPEDDIAGONALLY
+			If (flipAD)
+				If (flipX And Not flipY)
+					tile = tile | LevelMap.DIRECTIONDOWN
+				Else If (Not flipX And flipY)
+					tile = tile | LevelMap.DIRECTIONUP
+				End If
+			Else If (flipX And flipY)
+				tile = tile | LevelMap.DIRECTIONLEFT
+			Else If (flipX)
+				tile = tile | LevelMap.MIRRORX
+			Else If (flipY)
+				tile = tile | LevelMap.MIRRORY
+			End If
+			target[i] = tile
+		End For
 	End Function
 End Class
