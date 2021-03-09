@@ -48,30 +48,31 @@ Private
 
 	Function ReadLayers:Void(map:LevelMap, layers:JsonValue)
 		Local layersArray:JsonArray = JsonArray(layers)
+		Local layerMap:StringMap<JsonObject> = New StringMap<JsonObject>()
+		Local layerName:String
+		Local layerJson:JsonObject
 		
 		For Local i:Int = 0 To layersArray.Length - 1
-			ReadLayer(map, layersArray.Get(i))
+			layerJson = JsonObject(layersArray.Get(i))
+			layerName = layerJson.GetString(ATTRNAME).ToLower()
+			layerMap.Add(layerName, layerJson)
 		End For
-	End Function
-	
-	Function ReadLayer:Void(map:LevelMap, layer:JsonValue)
-		Local layerJson:JsonObject = JsonObject(layer)
-		Local name:String = layerJson.GetString(ATTRNAME).ToLower()
 		
-		Select (name)
-			Case LAYERGROUND
-				ReadData(layerJson.Get(ATTRDATA), map.groundTiles)
-			Case LAYERTOP
-				ReadData(layerJson.Get(ATTRDATA), map.topTiles)
-			Case LAYERSPAWNER
-			Case LAYERCONSUMER
-			Default
-				Logger.Warn("LevelMapFactory: Unrecognized layer " + name)
-		End Select
+		For Local expectedLayer:String = EachIn [LAYERGROUND, LAYERTOP, LAYERSPAWNER, LAYERCONSUMER]
+			If (Not layerMap.Contains(expectedLayer))
+				Logger.Error("LevelMapFactory: map does not contain layer " + expectedLayer)
+				EndApp()
+			End If
+		Next
+
+		ReadLayerTileData(layerMap.Get(LAYERGROUND), map.groundTiles)
+		ReadLayerTileData(layerMap.Get(LAYERTOP), map.topTiles)
+		'ReadSpawners LAYERSPAWNER
+		'ReadConsumers LAYERCONSUMER
 	End Function
-	
-	Function ReadData:Void(data:JsonValue, target:Int[])
-		Local dataArray:JsonArray = JsonArray(data)
+
+	Function ReadLayerTileData:Void(layerJson:JsonObject, target:Int[])
+		Local dataArray:JsonArray = JsonArray(layerJson.Get(ATTRDATA))
 		Local val:Int
 		Local tile:Int
 		Local flipX:Bool, flipY:Bool, flipAD:Bool
