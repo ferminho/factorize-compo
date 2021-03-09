@@ -24,14 +24,16 @@ Class Camera
 		If (mouse.buttonState = Mouse.DRAGGING)
 			x += mouse.prevx - mouse.x
 			y += mouse.prevy - mouse.y
-		Else If (mouse.x = 0.0)
-			x -= moveStep
-		Else If (mouse.x = 63.0)
-			x += moveStep
-		Else If (mouse.y = 0.0)
-			y -= moveStep
-		Else If (mouse.y = 63.0)
-			y += moveStep
+		Else If (SCREENEDGESCROLL)
+			If (mouse.x = 0.0)
+				x -= moveStep
+			Else If (mouse.x = 63.0)
+				x += moveStep
+			Else If (mouse.y = 0.0)
+				y -= moveStep
+			Else If (mouse.y = 63.0)
+				y += moveStep
+			End If
 		End If
 	
 		x = Int(Floor(x + 0.5))

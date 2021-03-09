@@ -1,5 +1,7 @@
 Strict
 
+' Graphics
+
 Const CANVASWIDTH:Float = 64.0
 Const CANVASHEIGHT:Float = 64.0
 
@@ -11,3 +13,7 @@ Const HALFTILESIZE:Float = TILESIZE / 2.0
 
 Const TILEANIMSPEED:Float = 4.0 ' frames/s
 Const BLOCKSPEED:Float = TILESIZE ' pixels/s
+
+' Feature flags
+
+Const SCREENEDGESCROLL:Bool = False
