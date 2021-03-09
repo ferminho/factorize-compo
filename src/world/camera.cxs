@@ -3,6 +3,7 @@ Strict
 Import consts
 Import ui.mouse
 Import time
+Import world.grid
 
 Class Camera
 
@@ -11,9 +12,14 @@ Class Camera
 	Field x:Float, y:Float
 	Field x0:Int, y0: Int	' screen origin
 
-	Method New()
+	Method New(grid:Grid)
+		Self.grid = grid
 		x = 32.0
 		y = 32.0
+		minX = -SCROLLMARGINPX
+		minY = -SCROLLMARGINPX
+		maxX = ((grid.Width * TILESIZE) - 1.0) + SCROLLMARGINPX
+		maxY = ((grid.Height * TILESIZE) - 1.0) + SCROLLMARGINPX
 	End Method
 
 	Method Update:Void()
@@ -38,8 +44,17 @@ Class Camera
 	
 		x = Int(Floor(x + 0.5))
 		y = Int(Floor(y + 0.5))
-
+		
+		x = Max(minX, Min(maxX, x))
+		y = Max(minY, Min(maxY, y))
+		
 		x0 = Int(Floor(x - CANVASHALFWIDTH + 0.5))
 		y0 = Int(Floor(y - CANVASHALFHEIGHT + 0.5))
 	End Method
+
+Private
+
+	Field grid:Grid	
+	Field minX:Float, maxX:Float, minY:Float, maxY:Float
+	
 End Class

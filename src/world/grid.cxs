@@ -1,0 +1,6 @@
+Strict
+
+Interface Grid
+	Method Width:Int() Property
+	Method Height:Int() Property
+End Interface

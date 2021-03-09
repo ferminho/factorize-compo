@@ -15,8 +15,8 @@ Class Level Implements Scene
 	Field levelMap:LevelMap
 
 	Method Start:Void()
-		camera = New Camera()
 		levelMap = LevelMapFactory.LoadFromFile("levels/test.json")
+		camera = New Camera(levelMap)
 	End Method
 
 	Method Update:Int()
