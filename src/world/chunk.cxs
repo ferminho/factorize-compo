@@ -1,0 +1,75 @@
+Strict
+
+Import logger
+
+Class Chunk
+	Field blocks:Int[][] = [[]]
+	
+	Method Width:Int() Property
+		Return blocks[0].Length
+	End Method
+	
+	Method Height:Int() Property
+		Return blocks.Length
+	End Method
+	
+	Method AddBlock(block:Int, i:Int, j:Int) ' i ~ y (row), j ~ x (col)
+		If (block = 0) 
+			Logger.Error("Tried to add a zero block to a chunk")
+		Else If (i < Height And j < Width And blocks[i][j] <> 0)
+			Logger.Error("Tried to add a block at an existing block place")
+		Else
+			If (j >= Width)
+				For Local i:Int = 0 To Height - 1
+					blocks[i] = blocks[i].Resize(j + 1)
+				End For
+			End If
+			If (i >= Height)
+				Local oldHeight:Int = Height
+				blocks = blocks.Resize(i + 1)
+				For Local i:Int = oldHeight To Height - 1
+					blocks[i] = New Int[Width]
+				End For
+			End If
+			
+			blocks[i][j] = block
+		End If
+	End Method
+	
+	Method RemoveBlock(i:Int, j:Int) ' i ~ y (row), j ~ x (col)
+		If (i >= Height Or j >= Width)
+			Logger.Error("Tried to remove a block out of bounds")
+		Else If (blocks[i][j] = 0)
+			Logger.Error("Tried to remove an empty block")
+		Else
+			blocks[i][j] = 0
+			TrimBlocks()
+		End If
+	End Method
+	
+	Private
+	
+	Method TrimBlocks:Void()
+		Local lastFilledCol:Int = -1
+		Local lastFilledRow:Int = -1
+		
+		For Local i:Int = 0 To Height - 1
+			For Local j:Int = 0 To Width - 1
+				If (blocks[i][j] <> 0)
+					If (i > lastFilledRow) Then lastFilledRow = i
+					If (j > lastFilledCol) Then lastFilledCol = j
+				End If
+			End For
+		End For
+		
+		If (lastFilledRow + 1 < Height)
+			blocks = blocks.Resize(lastFilledRow + 1)
+		End If
+		If (lastFilledCol + 1 < Width)
+			For Local i:Int = 0 To Height - 1
+				blocks[i] = blocks[i].Resize(lastFilledCol + 1)
+			End For
+		End If
+	End Method
+	
+End Class
