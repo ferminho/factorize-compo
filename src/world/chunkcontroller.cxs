@@ -1,0 +1,24 @@
+Strict
+
+Import mojo2
+
+Import world.camera
+Import world.chunk
+
+Class ChunkController
+
+	Method AddChunk:Void(chunk:Chunk)
+		chunks.AddLast(chunk)
+	End Method
+
+	Method Draw:Void(canvas:Canvas, camera:Camera)
+		For Local chunk:Chunk = EachIn chunks
+			chunk.Draw(canvas, camera)
+		End For
+	End Method
+
+Private
+
+	Field chunks:List<Chunk> = New List<Chunk>()
+ 
+End Class
