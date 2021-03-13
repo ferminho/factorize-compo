@@ -1,9 +1,24 @@
 Strict
 
+Import mojo2
+
+Import consts
 Import logger
+Import world.tileset
 
 Class Chunk
+	Field x:Float, y:Float	
 	Field blocks:Int[][] = [[]]
+	
+	Method New()
+	End Method
+	
+	Method New(width:Int, height:Int)
+		blocks = New Int[height][]
+		For Local i:Int = 0 To height - 1
+			blocks[i] = New Int[width]
+		End For
+	End Method
 	
 	Method Width:Int() Property
 		Return blocks[0].Length
@@ -12,8 +27,26 @@ Class Chunk
 	Method Height:Int() Property
 		Return blocks.Length
 	End Method
+
+	Method Draw:Void(canvas:Canvas)
+		Local img:Int = 0
+		Local drawX:Float
+		Local drawY:Float = y + HALFTILESIZE
+
+		For Local i:Int = 0 To Height - 1
+			drawX = x + HALFTILESIZE
+			For Local j:Int = 0 To Width - 1
+				img = blocks[i][j]
+				If (img > 0)
+					canvas.DrawImage(TileSet.GfxTiles[img], drawX, drawY)
+				End If
+				drawX += TILESIZE
+			End For
+			drawY += TILESIZE
+		End For
+	End Method
 	
-	Method AddBlock(block:Int, i:Int, j:Int) ' i ~ y (row), j ~ x (col)
+	Method AddBlock:Void(block:Int, i:Int, j:Int) ' i ~ y (row), j ~ x (col)
 		If (block = 0) 
 			Logger.Error("Tried to add a zero block to a chunk")
 		Else If (i < Height And j < Width And blocks[i][j] <> 0)
@@ -36,7 +69,7 @@ Class Chunk
 		End If
 	End Method
 	
-	Method RemoveBlock(i:Int, j:Int) ' i ~ y (row), j ~ x (col)
+	Method RemoveBlock:Void(i:Int, j:Int) ' i ~ y (row), j ~ x (col)
 		If (i >= Height Or j >= Width)
 			Logger.Error("Tried to remove a block out of bounds")
 		Else If (blocks[i][j] = 0)
@@ -71,5 +104,5 @@ Class Chunk
 			End For
 		End If
 	End Method
-	
+
 End Class
