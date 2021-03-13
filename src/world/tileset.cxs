@@ -36,9 +36,9 @@ Class TileSet
 	Const CONVEYORF4:Int = CONVEYORF3 + 1
 
 	' ---
-	Const PARTS:Int = CONVEYORF4 + 1
+	Const BLOCKS:Int = CONVEYORF4 + 1
 	' ---
-	Const PARTCONCRETE:Int = PARTS
+	Const BLOCKCONCRETE:Int = BLOCKS
 
 
 	Global GfxTiles:Image[]
