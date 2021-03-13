@@ -4,11 +4,12 @@ Import mojo2
 
 Import consts
 Import logger
+Import world.camera
 Import world.tileset
 
 Class Chunk
 	Field x:Float, y:Float	
-	Field blocks:Int[][] = [[]]
+	Field blocks:Int[][] = New Int[0][]
 	
 	Method New()
 	End Method
@@ -28,13 +29,13 @@ Class Chunk
 		Return blocks.Length
 	End Method
 
-	Method Draw:Void(canvas:Canvas)
+	Method Draw:Void(canvas:Canvas, camera:Camera)
 		Local img:Int = 0
 		Local drawX:Float
-		Local drawY:Float = y + HALFTILESIZE
+		Local drawY:Float = y + HALFTILESIZE - camera.y0
 
 		For Local i:Int = 0 To Height - 1
-			drawX = x + HALFTILESIZE
+			drawX = x + HALFTILESIZE - camera.x0
 			For Local j:Int = 0 To Width - 1
 				img = blocks[i][j]
 				If (img > 0)
