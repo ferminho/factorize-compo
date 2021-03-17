@@ -3,7 +3,9 @@ Strict
 Import brl.json
 
 Import logger
+Import world.items.tile
 Import world.levelmap
+Import world.tileset
 
 Class LevelMapFactory
 	Function LoadFromFile:LevelMap(jsonFilePath:String)
@@ -25,15 +27,13 @@ Private
 	Const ATTRNAME:String = "name"
 	Const ATTRDATA:String = "data"
 
-	Const LAYERGROUND:String = "ground"
-	Const LAYERTOP:String = "top"
+	Const LAYERTILES:String = "tiles"
 	Const LAYERSPAWNER:String = "spawners"
 	Const LAYERCONSUMER:String = "consumers"
 	
 	Const FLAGFLIPPEDHORIZONTALLY:Int = $80000000
 	Const FLAGFLIPPEDVERTICALLY:Int = $40000000
 	Const FLAGFLIPPEDDIAGONALLY:Int = $20000000
-	
 
 	Function ReadRoot:LevelMap(root:JsonValue)
 		Local rootJson:JsonObject = JsonObject(root)
@@ -58,46 +58,51 @@ Private
 			layerMap.Add(layerName, layerJson)
 		End For
 		
-		For Local expectedLayer:String = EachIn [LAYERGROUND, LAYERTOP, LAYERSPAWNER, LAYERCONSUMER]
+		For Local expectedLayer:String = EachIn [LAYERTILES, LAYERSPAWNER, LAYERCONSUMER]
 			If (Not layerMap.Contains(expectedLayer))
 				Logger.Error("LevelMapFactory: map does not contain layer " + expectedLayer)
 				EndApp()
 			End If
 		Next
 
-		ReadLayerTileData(layerMap.Get(LAYERGROUND), map.groundTiles)
-		ReadLayerTileData(layerMap.Get(LAYERTOP), map.topTiles)
+		ReadLayerTileData(map, layerMap.Get(LAYERTILES))
 		'ReadSpawners LAYERSPAWNER
 		'ReadConsumers LAYERCONSUMER
 	End Function
 
-	Function ReadLayerTileData:Void(layerJson:JsonObject, target:Int[])
+	Function ReadLayerTileData:Void(map:LevelMap, layerJson:JsonObject)
 		Local dataArray:JsonArray = JsonArray(layerJson.Get(ATTRDATA))
 		Local val:Int
-		Local tile:Int
+		Local tileType:Int
+		Local tile:Tile
+		Local target:Tile[]
 		Local flipX:Bool, flipY:Bool, flipAD:Bool
+		Local angle:Float = 0.0
 		
 		For Local i:Int = 0 To dataArray.Length - 1
 			val = dataArray.GetInt(i)
-			tile = val & ~(FLAGFLIPPEDDIAGONALLY | FLAGFLIPPEDHORIZONTALLY | FLAGFLIPPEDDIAGONALLY)
-			tile = Max(0, tile - 1) ' Tiled reserves 0 for no tile, but we also have a 0 blank tile so we need to shift one value to 0
-			flipX = val & FLAGFLIPPEDHORIZONTALLY > 0
-			flipY = val & FLAGFLIPPEDVERTICALLY > 0
-			flipAD = val & FLAGFLIPPEDDIAGONALLY > 0
-			If (flipAD)
-				If (flipX And Not flipY)
-					tile = tile | LevelMap.DIRECTIONDOWN
-				Else If (Not flipX And flipY)
-					tile = tile | LevelMap.DIRECTIONUP
+			tileType = val & ~(FLAGFLIPPEDVERTICALLY | FLAGFLIPPEDHORIZONTALLY | FLAGFLIPPEDDIAGONALLY)
+			tileType = Max(0, tileType - 1) ' Tiled reserves 0 for no tile, but we also have a 0 blank tile so we need to shift one value to 0
+			
+			If (tileType > 0) ' no need to process ABYSS, let them be null
+				flipX = val & FLAGFLIPPEDHORIZONTALLY <> 0
+				flipY = val & FLAGFLIPPEDVERTICALLY <> 0
+				flipAD = val & FLAGFLIPPEDDIAGONALLY <> 0
+
+				If (TileSet.IsTopLayer[tileType])
+					target = map.topTiles
+				Else
+					target = map.groundTiles
 				End If
-			Else If (flipX And flipY)
-				tile = tile | LevelMap.DIRECTIONLEFT
-			Else If (flipX)
-				tile = tile | LevelMap.MIRRORX
-			Else If (flipY)
-				tile = tile | LevelMap.MIRRORY
+				
+				If (flipAD)
+					angle = 90.0
+					flipY = Not flipY
+				Else
+					angle = 0.0
+				End If
+				target[i] = New Tile(tileType, angle, flipX, flipY)
 			End If
-			target[i] = tile
 		End For
 	End Function
 	
@@ -116,5 +121,10 @@ Private
 			Case JsonValue.STRINGTYPE
 				Print("STRING")
 		End Select
+	End Function
+	
+	Function Bool2String:String(b:Bool)
+		If (b) Then Return "true"
+		Return "false"
 	End Function
 End Class

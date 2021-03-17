@@ -6,29 +6,17 @@ Import consts
 Import world.camera
 Import world.grid
 Import world.tileset
-Import time
+Import world.items.tile
 
 Class LevelMap Implements Grid
-	Const MASKTILE:Int = $FF
-	Const MASKDIRECTION:Int = $700
-
-	Const DIRECTIONRIGHT:Int = $000
-	Const DIRECTIONDOWN:Int = $100
-	Const DIRECTIONLEFT:Int = $200
-	Const DIRECTIONUP:Int = $300
-	Const MIRRORX:Int = $400
-	Const MIRRORY:Int = $500
-
-	Field groundTiles:Int[]
-	Field playerBlocks:Int[]
-	Field topTiles:Int[]
+	Field groundTiles:Tile[]
+	Field topTiles:Tile[]
 
 	Method New(width:Int, height:Int)
 		Self.width = width
 		Self.height = height
-		groundTiles = New Int[width * height]
-		topTiles = New Int[width * height]
-		playerBlocks = New Int[width * height]
+		groundTiles = New Tile[width * height]
+		topTiles = New Tile[width * height]
 	End Method
 
 	Method Width:Int() Property
@@ -40,32 +28,43 @@ Class LevelMap Implements Grid
 	End Method
 
 	Method Update:Void()
-		animDelta = Floor(Time.Instance.actTime * TILEANIMSPEED / 1000.0)
+		For Local tilemap:Tile[] = EachIn [groundTiles, topTiles]
+			For Local i:Int = 0 To tilemap.Length - 1
+				If (tilemap[i] <> Null) Then tilemap[i].Update()
+			End For
+		End For
 	End Method
 
-	Method DrawBottomLayers:Void(canvas:Canvas, camera:Camera)
-		DrawTilemaps(canvas, [groundTiles, playerBlocks], camera)
+	Method DrawGroundTiles:Void(canvas:Canvas, camera:Camera)
+		DrawTiles(canvas, groundTiles, camera)
 	End Method
 	
-	Method DrawTopLayers:Void(canvas:Canvas, camera:Camera)
-		DrawTilemaps(canvas, [topTiles], camera)
+	Method DrawTopTiles:Void(canvas:Canvas, camera:Camera)
+		DrawTiles(canvas, topTiles, camera)
 	End Method
 
-	Method GetGroundTileAt:Int(x:Float, y:Float)
+	Method GetGroundTileAt:Tile(x:Float, y:Float)
 		Local i:Int = Floor((y - 0.5) / TILESIZE)
 		Local j:Int = Floor((x + 0.5) / TILESIZE)
-		If (i < 0 Or i >= height) Then Return Tileset.ABYSS
-		If (j < 0 Or j >= width) Then Return Tileset.ABYSS
+		If (i < 0 Or i >= height) Then Return Null
+		If (j < 0 Or j >= width) Then Return Null
 		Return groundTiles[i * width + j]
+	End Method
+
+	Method GetTopTileAt:Tile(x:Float, y:Float)
+		Local i:Int = Floor((y - 0.5) / TILESIZE)
+		Local j:Int = Floor((x + 0.5) / TILESIZE)
+		If (i < 0 Or i >= height) Then Return Null
+		If (j < 0 Or j >= width) Then Return Null
+		Return topTiles[i * width + j]
 	End Method
 
 Private
 
 	Field width:Int
 	Field height:Int
-	Field animDelta:Int = 0
 
-	Method DrawTilemaps:Void(canvas:Canvas, tilemaps:Int[][], camera:Camera)
+	Method DrawTiles:Void(canvas:Canvas, tilemap:Tile[], camera:Camera)
 		Local camX0Mod:Int = camera.x0 Mod TILESIZE
 		If (camX0Mod < 0.0) Then camX0Mod += TILESIZE
 		Local camY0Mod:Int = camera.y0 Mod TILESIZE
@@ -77,12 +76,16 @@ Private
 		Local tileI1:Int = tileI0 + (CANVASHEIGHT / TILESIZE)
 		Local tileJ0:Int = Floor(camera.x0 / TILESIZE)
 		Local tileJ1:Int = tileJ0 + (CANVASWIDTH / TILESIZE)
+		Local tile:Tile = Null
 		
 		For Local i:Int = tileI0 To tileI1
 			Local x:Int = x0
 			For Local j:Int = tileJ0 To tileJ1
 				If (i >= 0 And i < height And j >= 0 And j < width)
-					DrawTilesAt(canvas, tilemaps, i * width + j, x, y)
+					tile = tilemap[i * width + j]
+					If (tile <> Null)
+						tile.Draw(canvas, x, y)
+					End If
 				Else
 					canvas.DrawImage(TileSet.GfxTiles[TileSet.ABYSS], x, y)
 				End If
@@ -97,6 +100,7 @@ Private
 		Local animFrames:Int
 		Local img:Image
 		Local direction:Int
+		Local mirror:Int
 		Local angle:Float = 0.0
 		Local scaleX:Float = 1.0
 		Local scaleY:Float = 1.0
@@ -104,6 +108,7 @@ Private
 		For Local tilemap:Int[] = EachIn tilemaps
 			imgN = tilemap[position]
 			direction = imgN & MASKDIRECTION
+			mirror = imgN & MASKMIRROR
 			imgN &= MASKTILE
 			If (imgN > 0)
 				animFrames = TileSet.AnimFrames[imgN]

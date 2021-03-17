@@ -45,9 +45,9 @@ Class Level Implements Scene
 		Local color:Float = Rnd(0.1, 0.3)
 		canvas.Clear(color, color, color)
 
-		levelMap.DrawBottomLayers(canvas, camera)
+		levelMap.DrawGroundTiles(canvas, camera)
 		chunkController.Draw(canvas, camera)
-		levelMap.DrawTopLayers(canvas, camera)
+		levelMap.DrawTopTiles(canvas, camera)
 	End Method
 	
 End Class
