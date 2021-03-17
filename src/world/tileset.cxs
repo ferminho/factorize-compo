@@ -43,13 +43,21 @@ Class TileSet
 
 	Global GfxTiles:Image[]
 	Global AnimFrames:Int[]
+	Global IsTopLayer:Bool[]
 	
 	Function Initialize:Void()
 		GfxTiles = Image.LoadFrames("cerberus://data/gfx/tileset4.png", NTILES, False, .5, .5, 0)
 		' Define animation lengths
 		AnimFrames = New Int[GfxTiles.Length]
+		For Local i:Int = 0 To AnimFrames.Length - 1
+			AnimFrames[i] = 1
+		End For
 		AnimFrames[TUBEHOLE] = 4
 		AnimFrames[CONVEYOR] = 4
+		IsTopLayer = New Bool[GfxTiles.Length]
+		For Local i:Int = TUBEHOLE To TUBEFLAT
+			IsTopLayer[i] = True
+		End For
 	End Function
 
 Private
