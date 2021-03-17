@@ -1,0 +1,52 @@
+Strict
+
+Import mojo2
+
+Import consts
+Import time
+Import world.tileset
+
+Class Tile
+	
+	Method New(type:Int, angle:Float = 0.0, mirrorX:Bool = False, mirrorY:Bool = False)
+		Self.type = type
+		Self.angle = angle
+		If (mirrorX) Then scaleX = -1.0
+		If (mirrorY) Then scaleY = -1.0
+	End Method
+	
+	Method Type:Int() Property
+		Return type
+	End Method
+	
+	Method Fixed:Bool() Property
+		Return True ' tiles by default are fixed, i.e. can't be removed or altered. Extending classes might behave otherwise
+	End Method
+
+	Method Update:Void()
+		animDelta = Floor(Time.Instance.actTime * TILEANIMSPEED / 1000.0)
+	End Method
+	
+	Method Draw:Void(canvas:Canvas, x:Float, y:Float)
+		Local imgN:Int = type
+		Local animFrames:Int = TileSet.AnimFrames[type]
+
+		If (animFrames > 1) Then imgN += animDelta Mod animFrames
+		' ensure intended order of operations, remember, last to first
+		canvas.PushMatrix()
+		canvas.Translate(x, y)
+		canvas.Scale(scaleX, scaleY)
+		canvas.Rotate(angle)
+		canvas.DrawImage(TileSet.GfxTiles[imgN])
+		canvas.PopMatrix()
+	End Method
+	
+	Private
+	
+	Field type:Int = 0
+	Field angle:Float = 0.0
+	Field scaleX:Float = 1.0
+	Field scaleY:Float = 1.0
+	
+	Field animDelta:Int = 0
+End Class
