@@ -3,7 +3,7 @@ Strict
 Import mojo2
 
 Import world.camera
-Import world.chunk
+Import world.items.chunk
 
 Class ChunkController
 

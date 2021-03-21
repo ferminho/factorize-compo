@@ -6,17 +6,34 @@ Import consts
 Import world.camera
 Import world.grid
 Import world.tileset
+Import world.items.chunk
+Import world.items.chunkcontroller
 Import world.items.tile
 
 Class LevelMap Implements Grid
 	Field groundTiles:Tile[]
 	Field topTiles:Tile[]
 
+	Field chunkController:ChunkController = New ChunkController()
+	
+
 	Method New(width:Int, height:Int)
 		Self.width = width
 		Self.height = height
 		groundTiles = New Tile[width * height]
 		topTiles = New Tile[width * height]
+		
+		' TEST
+		Local chunk:Chunk = New Chunk(3, 3)
+		chunk.x = TILESIZE * 6
+		chunk.y = TILESIZE * 5
+		chunk.AddBlock(TileSet.BLOCKCONCRETE, 0, 1)
+		chunk.AddBlock(TileSet.BLOCKCONCRETE, 1, 0)
+		chunk.AddBlock(TileSet.BLOCKCONCRETE, 1, 1)
+		chunk.AddBlock(TileSet.BLOCKCONCRETE, 1, 2)
+		chunk.AddBlock(TileSet.BLOCKCONCRETE, 2, 1)
+		chunkController.AddChunk(chunk)
+		
 	End Method
 
 	Method Width:Int() Property
@@ -33,6 +50,12 @@ Class LevelMap Implements Grid
 				If (tilemap[i] <> Null) Then tilemap[i].Update()
 			End For
 		End For
+	End Method
+	
+	Method Draw:Void(canvas:Canvas, camera:Camera)
+		DrawGroundTiles(canvas, camera)
+		chunkController.Draw(canvas, camera)
+		DrawTopTiles(canvas, camera)
 	End Method
 
 	Method DrawGroundTiles:Void(canvas:Canvas, camera:Camera)

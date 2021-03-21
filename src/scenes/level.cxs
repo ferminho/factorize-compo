@@ -5,8 +5,6 @@ Import mojo2
 Import scenes.scene
 Import ui.mouse
 Import world.camera
-Import world.chunk
-Import world.chunkcontroller
 Import world.levelmap
 Import world.levelmapfactory
 Import world.tileset
@@ -15,22 +13,10 @@ Class Level Implements Scene
 
 	Field camera:Camera
 	Field levelMap:LevelMap
-	Field chunkController:ChunkController
 
 	Method Start:Void()
 		levelMap = LevelMapFactory.LoadFromFile("levels/test.json")
 		camera = New Camera(levelMap)
-		' TEST
-		Local chunk:Chunk = New Chunk(3, 3)
-		chunk.x = TILESIZE * 6
-		chunk.y = TILESIZE * 5
-		chunk.AddBlock(TileSet.BLOCKCONCRETE, 0, 1)
-		chunk.AddBlock(TileSet.BLOCKCONCRETE, 1, 0)
-		chunk.AddBlock(TileSet.BLOCKCONCRETE, 1, 1)
-		chunk.AddBlock(TileSet.BLOCKCONCRETE, 1, 2)
-		chunk.AddBlock(TileSet.BLOCKCONCRETE, 2, 1)
-		chunkController = New ChunkController()
-		chunkController.AddChunk(chunk)
 	End Method
 
 	Method Update:Int()
@@ -46,7 +32,6 @@ Class Level Implements Scene
 		canvas.Clear(color, color, color)
 
 		levelMap.DrawGroundTiles(canvas, camera)
-		chunkController.Draw(canvas, camera)
 		levelMap.DrawTopTiles(canvas, camera)
 	End Method
 	
