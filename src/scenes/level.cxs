@@ -3,7 +3,6 @@ Strict
 Import mojo2 
 
 Import scenes.scene
-Import ui.mouse
 Import world.camera
 Import world.levelmap
 Import world.levelmapfactory
