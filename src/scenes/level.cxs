@@ -2,36 +2,63 @@ Strict
 
 Import mojo2 
 
+Import scenes.editing
 Import scenes.scene
-Import world.camera
 Import world.levelmap
 Import world.levelmapfactory
 Import world.tileset
 
 Class Level Implements Scene
 
-	Field camera:Camera
-	Field levelMap:LevelMap
-
 	Method Start:Void()
-		levelMap = LevelMapFactory.LoadFromFile("levels/test.json")
-		camera = New Camera(levelMap)
+		Local levelMap:LevelMap = LevelMapFactory.LoadFromFile("levels/test.json")
+		editingScene = New Editing(levelMap)
 	End Method
 
 	Method Update:Int()
-		camera.Update()
-		levelMap.Update()
+		Local status:Int
+		If (playingScene <> Null)
+			Return UpdatePlayingScene()
+		Else
+			Return UpdateEditingScene()
+		End If
 		Return Scene.KeepRunning
 	End Method
 	
 	Method Draw:Void(canvas:Canvas)	
-		canvas.SetBlendMode(BlendMode.Alpha)
-		canvas.SetColor(1.0, 1.0, 1.0, 1.0)
-		Local color:Float = Rnd(0.1, 0.3)
-		canvas.Clear(color, color, color)
+		If (playingScene <> Null)
+			playingScene.Draw(canvas)
+		Else
+			editingScene.Draw(canvas)
+		End If
+	End Method
 
-		levelMap.DrawGroundTiles(canvas, camera)
-		levelMap.DrawTopTiles(canvas, camera)
+	Private
+	
+	Field editingScene:Editing
+	Field playingScene:Playing
+
+	Method UpdatePlayingScene:Int()
+		Local status:Int = playingScene.Update()
+		
+		If (status = Scene.Abort)
+			playingScene = Null
+			Return UpdateEditingScene()
+		Else If (status = Scene.SkipToNextScene)
+			Return Scene.SkipToNextScene
+		End If
+		Return Scene.KeepRunning
+	End Method
+	
+	Method UpdateEditingScene:Int()
+		Local status:Int = editingScene.Update()
+
+		If (status = Scene.SkipToNextScene)
+			playingScene = editingScene.StartPlaying()
+			Return playingScene.Update()
+		End If
+
+		Return status
 	End Method
 	
 End Class

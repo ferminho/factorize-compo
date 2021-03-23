@@ -140,15 +140,15 @@ Private
 				
 				If (direction = DIRECTIONDOWN)
 					angle = -90.0
-				ElseIf (direction = DIRECTIONLEFT)
+				Else If (direction = DIRECTIONLEFT)
 					scaleX = -1.0
 					scaleY = -1.0
-				ElseIf (direction = DIRECTIONUP)
+				Else If (direction = DIRECTIONUP)
 					scaleX = -1.0
 					angle = -90.0
-				ElseIf (direction = MIRRORX)
+				Else If (direction = MIRRORX)
 					scaleX = -1.0
-				ElseIf (direction = MIRRORY)
+				Else If (direction = MIRRORY)
 					scaleY = -1.0
 				EndIf
 

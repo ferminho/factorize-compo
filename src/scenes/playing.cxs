@@ -1,0 +1,31 @@
+Strict
+
+Import scenes.scene
+Import world.camera
+Import world.levelmap
+
+Class Playing Implements Scene
+	Method New(levelMap:LevelMap, camera:Camera)
+		Self.levelMap = levelMap
+		Self.camera = camera
+	End Method
+
+	Method Start:Void()
+	End Method
+
+	Method Update:Int()
+		camera.Update()
+		levelMap.Update()
+		Return Scene.KeepRunning
+	End Method
+	
+	Method Draw:Void(canvas:Canvas)	
+		levelMap.Draw(canvas, camera)
+	End Method
+
+	Private
+	
+	Field levelMap:LevelMap
+	Field camera:Camera
+
+End Class
