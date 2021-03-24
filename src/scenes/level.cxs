@@ -25,7 +25,7 @@ Class Level Implements Scene
 		Else
 			Return UpdateEditingScene()
 		End If
-		Return Scene.KeepRunning
+		Return Scene.Running
 	End Method
 	
 	Method Draw:Void(canvas:Canvas)	
@@ -44,22 +44,22 @@ Class Level Implements Scene
 	Method UpdatePlayingScene:Int()
 		Local status:Int = playingScene.Update()
 		
-		If (status = Scene.Abort)
+		If (status = Scene.Interrupted)
 			playingScene = Null
 			editingScene.Resume()
-		Else If (status = Scene.SkipToNextScene)
-			Return Scene.SkipToNextScene
+		Else If (status = Scene.Complete)
+			Return Scene.Complete
 		End If
-		Return Scene.KeepRunning
+		Return Scene.Running
 	End Method
 	
 	Method UpdateEditingScene:Int()
 		Local status:Int = editingScene.Update()
 
-		If (status = Scene.SkipToNextScene)
+		If (status = Scene.Complete)
 			playingScene = editingScene.GetNewPlayingScene()
 			playingScene.Start()
-			Return Scene.KeepRunning
+			Return Scene.Running
 		End If
 
 		Return status

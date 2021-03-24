@@ -20,7 +20,7 @@ Class Editing Implements Scene
 	Method Update:Int()
 		camera.Update()
 		levelMap.Update()
-		Return Scene.KeepRunning
+		Return Scene.Running
 	End Method
 	
 	Method Draw:Void(canvas:Canvas)	

@@ -56,10 +56,10 @@ Private
 	Method UpdateScenes:Void()
 		Local status:Int = scenes[currentScene].Update()
 		
-		If (status = Scene.SkipToNextScene)
+		If (status = Scene.Complete)
 			currentScene+= 1
 			scenes[currentScene].Start()
-		Else If (status = Scene.Abort)
+		Else If (status = Scene.Interrupted)
 			currentScene-= 1
 			If (currentScene < 0) Then EndApp()
 			scenes[currentScene].Start()

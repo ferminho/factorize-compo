@@ -9,9 +9,9 @@ Import scenes.scene
 
 Class SceneSequence Implements Scene
 
-	Method New(scenes:Scene[], abortable:Bool = True)
+	Method New(scenes:Scene[], interruptible:Bool = True)
 		Self.scenes = scenes
-		Self.abortable = abortable
+		Self.interruptible = interruptible
 	End Method
 
 	Method StartIn:Void(sceneNumber:Int)
@@ -28,20 +28,20 @@ Class SceneSequence Implements Scene
 
 	Method Update:Int()
 		Local status:Int = scenes[current].Update()
-		If (status = Scene.SkipToNextScene)
+		If (status = Scene.Complete)
 			current += 1
 			If (current > scenes.Length)
-				Return Scene.SkipToNextScene
+				Return Scene.Complete
 			End If
 			scenes[current].Start()
-		Else If (status = Scene.Abort)
-			If (abortable Or current = 0)
-				Return Scene.Abort
+		Else If (status = Scene.Interrupted)
+			If (interruptible Or current = 0)
+				Return Scene.Interrupted
 			End If
 			current -= 1
 			scenes[current].Resume()
 		End If
-		Return Scene.KeepRunning
+		Return Scene.Running
 	End Method
 
 	Method Draw:Void(canvas:Canvas)	
@@ -52,6 +52,6 @@ Class SceneSequence Implements Scene
 	
 	Field scenes:Scene[]
 	Field current:Int = 0
-	Field abortable:Bool
+	Field interruptible:Bool
 	
 End Class

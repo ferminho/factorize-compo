@@ -22,7 +22,7 @@ Class Loading Implements Scene
 	End Method
 
 	Method Update:Int()
-		Return Scene.SkipToNextScene
+		Return Scene.Complete
 	End Method
 
 	Method Draw:Void(canvas:Canvas)	
