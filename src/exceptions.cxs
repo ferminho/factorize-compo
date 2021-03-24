@@ -1,0 +1,9 @@
+Strict
+
+Import logger
+
+Class Exception Extends Throwable
+	Method New(type:String, msg:String)
+		Logger.Error("EXCEPTION (" + type + "): " + msg)
+	End Method
+End Class
