@@ -15,6 +15,9 @@ Class Level Implements Scene
 		editingScene = New Editing(levelMap)
 	End Method
 
+	Method Resume:Void()
+	End Method
+
 	Method Update:Int()
 		Local status:Int
 		If (playingScene <> Null)
@@ -43,7 +46,7 @@ Class Level Implements Scene
 		
 		If (status = Scene.Abort)
 			playingScene = Null
-			Return UpdateEditingScene()
+			editingScene.Resume()
 		Else If (status = Scene.SkipToNextScene)
 			Return Scene.SkipToNextScene
 		End If
@@ -54,8 +57,9 @@ Class Level Implements Scene
 		Local status:Int = editingScene.Update()
 
 		If (status = Scene.SkipToNextScene)
-			playingScene = editingScene.StartPlaying()
-			Return playingScene.Update()
+			playingScene = editingScene.GetNewPlayingScene()
+			playingScene.Start()
+			Return Scene.KeepRunning
 		End If
 
 		Return status

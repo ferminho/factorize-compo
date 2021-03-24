@@ -12,6 +12,9 @@ Class Playing Implements Scene
 
 	Method Start:Void()
 	End Method
+	
+	Method Resume:Void()
+	End Method
 
 	Method Update:Int()
 		camera.Update()

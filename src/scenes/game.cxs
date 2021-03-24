@@ -4,21 +4,24 @@ Import mojo2
 
 Import scenes.level
 Import scenes.scene
-Import scenes.scenecontainer
+Import scenes.scenesequence
 
 Class Game Implements Scene
 
-	Field levelScenes:SceneContainer
+	Field levelScenes:SceneSequence
 
 	Method New()
 		Local levels:Scene[] = New Scene[1]
 		levels = New Scene[1]
 		levels[0] = New Level()
-		levelScenes = New SceneContainer(levels)
+		levelScenes = New SceneSequence(levels)
 	End Method
 
 	Method Start:Void()
 		levelScenes.Start()
+	End Method
+	
+	Method Resume:Void()
 	End Method
 
 	Method Update:Int()

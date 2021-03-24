@@ -16,6 +16,10 @@ Class Loading Implements Scene
 		TileSet.Initialize()
 		Mouse.Instance.Update()
 	End Method
+	
+	Method Resume:Void()
+		Throw New InvalidSceneOperation("Loading.Resume not allowed")
+	End Method
 
 	Method Update:Int()
 		Return Scene.SkipToNextScene

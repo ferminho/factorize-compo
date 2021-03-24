@@ -7,13 +7,11 @@ Import mojo2
 
 Import scenes.scene
 
-Class SceneContainer Implements Scene
+Class SceneSequence Implements Scene
 
-	Field scenes:Scene[]
-	Field current:Int = 0
-
-	Method New(scenes:Scene[])
+	Method New(scenes:Scene[], abortable:Bool = True)
 		Self.scenes = scenes
+		Self.abortable = abortable
 	End Method
 
 	Method StartIn:Void(sceneNumber:Int)
@@ -23,6 +21,9 @@ Class SceneContainer Implements Scene
 
 	Method Start:Void()
 		scenes[current].Start()
+	End Method
+	
+	Method Resume:Void()
 	End Method
 
 	Method Update:Int()
@@ -34,7 +35,11 @@ Class SceneContainer Implements Scene
 			End If
 			scenes[current].Start()
 		Else If (status = Scene.Abort)
-			Return Scene.Abort
+			If (abortable Or current = 0)
+				Return Scene.Abort
+			End If
+			current -= 1
+			scenes[current].Resume()
 		End If
 		Return Scene.KeepRunning
 	End Method
@@ -43,4 +48,10 @@ Class SceneContainer Implements Scene
 		scenes[current].Draw(canvas)
 	End Method
 
+	Private
+	
+	Field scenes:Scene[]
+	Field current:Int = 0
+	Field abortable:Bool
+	
 End Class

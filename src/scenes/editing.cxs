@@ -14,6 +14,9 @@ Class Editing Implements Scene
 	Method Start:Void()
 	End Method
 
+	Method Resume:Void()
+	End Method
+
 	Method Update:Int()
 		camera.Update()
 		levelMap.Update()
@@ -24,7 +27,7 @@ Class Editing Implements Scene
 		levelMap.Draw(canvas, camera)
 	End Method
 
-	Method StartPlaying:Playing()
+	Method GetNewPlayingScene:Playing()
 		Return New Playing(levelMap, camera)
 	End Method
 
