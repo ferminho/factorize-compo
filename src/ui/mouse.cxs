@@ -20,7 +20,16 @@ Class Mouse
 	Field scroll:Int = 0
 	Field buttonState:Int = IDLE
 
+	Method HasBeenHandled:Bool() Property
+		Return handled
+	End Method
+
+	Method Handled:Void()
+		handled = True
+	End Method	
+
 	Method Update:Void()
+		clickHandled = False
 		prevx = x
 		prevy = y
 		x = TouchX(0) * Screen.Instance.widthRatio
@@ -89,5 +98,6 @@ Private
 	Field clickTime:Int = 0
 
 	Field waitingRelease:Bool = False
+	Field handled:Bool = False
 
 End Class

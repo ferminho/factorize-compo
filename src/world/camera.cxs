@@ -27,9 +27,10 @@ Class Camera
 		Local delta:Float = Time.Instance.realLastFrame
 		Local moveStep:Float = (SPEED * delta) / 1000.0
 		
-		If (mouse.buttonState = Mouse.DRAGGING)
+		If (Not mouse.HasBeenHandled And mouse.buttonState = Mouse.DRAGGING)
 			x += mouse.prevx - mouse.x
 			y += mouse.prevy - mouse.y
+			mouse.Handled()
 		Else If (SCREENEDGESCROLL)
 			If (mouse.x = 0.0)
 				x -= moveStep
