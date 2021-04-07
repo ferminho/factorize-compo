@@ -1,0 +1,50 @@
+Strict
+
+Import mojo2
+
+Import ui.mouse
+
+Class Icon
+
+	Const ICONPLAY:Int = 0
+	Const ICONPAUSE:Int = ICONPLAY + 1
+	Const ICONSTOP:Int = ICONPAUSE + 1
+	Const ICONRETRY:Int = ICONSTOP + 1
+
+	Function Initialize:Void()
+		GfxTiles = Image.LoadFrames("cerberus://data/gfx/icons.png", NICONS, False, .5, .5, 0)
+	End Function
+
+	Method New(id:String, icon:Int, x:Float, y:Float)
+		Self.id = id
+		Self.icon = icon
+		Self.x = x
+		Self.y = y
+		halfWidth = GfxTiles[icon].Width() / 2.0
+		halfHeight = GfxTiles[icon].Height() / 2.0
+	End Method
+
+	Method Draw:Void(canvas:Canvas)
+		canvas.DrawImage(GfxIcons[icon], x, y)
+	End Method
+
+	Method IsClicked:Bool()
+		Local mouse:Mouse = Mouse.Instance
+		If (Not mouse.HasBeenHandled And mouse.buttonState = Mouse.CLICK)
+			Return mouse.x >= x - halfWidth And mouse.x <= x + halfWidth And mouse.y >= y - halfHeight And mouse.y <= y + halfHeight
+		End If
+		Return False
+	End Method
+
+	Private
+
+	Const NICONS = 4
+
+	Global GfxIcons:Image[]
+
+	Field id:String
+	Field icon:Int
+	Field x:Float, y:Float
+	Field halfWidth:Float, halfHeight:Float
+	
+End Class
