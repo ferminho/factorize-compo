@@ -29,7 +29,7 @@ Class Mouse
 	End Method	
 
 	Method Update:Void()
-		clickHandled = False
+		handled = False
 		prevx = x
 		prevy = y
 		x = TouchX(0) * Screen.Instance.widthRatio
@@ -44,6 +44,7 @@ Class Mouse
 			wasClickingRight = False
 			scroll = y - prevy
 		Else If (waitingRelease)
+			buttonState = IDLE
 			If (Not MouseDown(MOUSE_LEFT) And Not TouchDown(0) And Not MouseDown(MOUSE_RIGHT))
 				waitingRelease = False
 				wasClickingLeft = False
