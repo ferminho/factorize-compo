@@ -2,6 +2,7 @@ Strict
 
 Import mojo2
 
+Import time
 Import ui.mouse
 
 Class Button
@@ -24,15 +25,30 @@ Class Button
 	End Method
 
 	Method Update:Void()
+		Local delta:Int = (Time.Instance.realActTime Mod 3000) + 1
+		If (delta > 2750)
+			highlightLevel = Float(delta - 2750) / 500.0
+		Else
+			highlightLevel = 0.0
+		End If
 	End Method
 
 	Method Draw:Void(canvas:Canvas)
+		' Shadow
 		canvas.SetColor(0.0, 0.0, 0.0)
 		canvas.SetAlpha(0.7)
 		canvas.DrawImage(GfxIcons[icon], x, y + 1.0)
+		' Icon
 		canvas.SetColor(1.0, 1.0, 1.0)
 		canvas.SetAlpha(1.0)
 		canvas.DrawImage(GfxIcons[icon], x, y)
+		' Highlight
+		canvas.SetBlendMode(BlendMode.Additive)
+		canvas.SetAlpha(highlightLevel)
+		canvas.DrawImage(GfxIcons[icon], x, y)
+		
+		canvas.SetBlendMode(BlendMode.Alpha)
+		canvas.SetAlpha(1.0)
 	End Method
 
 	Method IsClicked:Bool() Property
@@ -52,5 +68,6 @@ Class Button
 	Field icon:Int
 	Field x:Float, y:Float
 	Field halfWidth:Float, halfHeight:Float
+	Field highlightLevel:Float = 0.0
 	
 End Class
