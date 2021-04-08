@@ -13,6 +13,7 @@ Class Level Implements Scene
 	Method Start:Void()
 		Local levelMap:LevelMap = LevelMapFactory.LoadFromFile("levels/test.json")
 		editingScene = New Editing(levelMap)
+		editingScene.Start()
 	End Method
 
 	Method Resume:Void()
