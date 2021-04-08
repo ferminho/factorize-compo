@@ -2,6 +2,7 @@ Strict
 
 Import scenes.playing
 Import scenes.scene
+Import ui.button
 Import world.camera
 Import world.levelmap
 
@@ -12,12 +13,17 @@ Class Editing Implements Scene
 	End Method
 
 	Method Start:Void()
+		CreateUI()
 	End Method
 
 	Method Resume:Void()
+		CreateUI()
 	End Method
 
 	Method Update:Int()
+		playButton.Update()
+		If (playButton.IsClicked)
+		End If
 		camera.Update()
 		levelMap.Update()
 		Return Scene.Running
@@ -25,6 +31,7 @@ Class Editing Implements Scene
 	
 	Method Draw:Void(canvas:Canvas)	
 		levelMap.Draw(canvas, camera)
+		playButton.Draw(canvas)
 	End Method
 
 	Method GetNewPlayingScene:Playing()
@@ -32,8 +39,13 @@ Class Editing Implements Scene
 	End Method
 
 	Private
-	
+
 	Field levelMap:LevelMap
 	Field camera:Camera
+	Field playButton:Button
+
+	Method CreateUI:Void()
+		playButton = New Button(Button.ICONPLAY, 5.0, 5.0)
+	End Method
 
 End Class
