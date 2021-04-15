@@ -4,6 +4,7 @@ Import mojo2
 
 Import scenes.editing
 Import scenes.scene
+Import world.camera
 Import world.levelmap
 Import world.levelmapfactory
 Import world.tileset
@@ -11,8 +12,10 @@ Import world.tileset
 Class Level Implements Scene
 
 	Method Start:Void()
-		Local levelMap:LevelMap = LevelMapFactory.LoadFromFile("levels/test.json")
-		editingScene = New Editing(levelMap)
+		levelMap = LevelMapFactory.LoadFromFile("levels/test.json")
+		camera = New Camera(levelMap)
+
+		editingScene = New Editing(levelMap, camera)
 		editingScene.Start()
 	End Method
 
@@ -39,6 +42,9 @@ Class Level Implements Scene
 
 	Private
 	
+	Field levelMap:LevelMap
+	Field camera:Camera
+	
 	Field editingScene:Editing
 	Field playingScene:Playing
 
@@ -58,7 +64,7 @@ Class Level Implements Scene
 		Local status:Int = editingScene.Update()
 
 		If (status = Scene.Complete)
-			playingScene = editingScene.GetNewPlayingScene()
+			playingScene = New Playing(levelMap, camera)
 			playingScene.Start()
 			Return Scene.Running
 		End If

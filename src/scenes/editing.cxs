@@ -7,9 +7,9 @@ Import world.camera
 Import world.levelmap
 
 Class Editing Implements Scene
-	Method New(levelMap:LevelMap)
+	Method New(levelMap:LevelMap, camera:Camera)
 		Self.levelMap = levelMap
-		camera = New Camera(levelMap)
+		Self.camera = camera
 	End Method
 
 	Method Start:Void()
@@ -32,10 +32,6 @@ Class Editing Implements Scene
 	Method Draw:Void(canvas:Canvas)	
 		levelMap.Draw(canvas, camera)
 		playButton.Draw(canvas)
-	End Method
-
-	Method GetNewPlayingScene:Playing()
-		Return New Playing(levelMap, camera)
 	End Method
 
 	Private
